@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GCU Lahore - Portal Login</title>
+    <title>GCU Lahore - LMS Portal</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,16 +19,21 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #d1b16c; /* Exact Gold / Ochre Background */
+            background-color: #d1b16c;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
             color: #1a1a1a;
         }
 
-        .container {
+        /* ---------------- LOGIN PAGE STYLES ---------------- */
+        #login-view {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        .login-container {
             width: 100%;
             max-width: 1280px;
             display: flex;
@@ -38,7 +43,6 @@
             min-height: 80vh;
         }
 
-        /* Left Side Content */
         .hero-section {
             flex: 1;
             max-width: 600px;
@@ -50,7 +54,7 @@
             font-size: 4rem;
             font-weight: 900;
             line-height: 1.1;
-            color: #4a0d0d; /* Deep Maroon / Brown Accent */
+            color: #4a0d0d;
             margin-bottom: 1.5rem;
             letter-spacing: -1px;
         }
@@ -59,10 +63,8 @@
             font-size: 1.25rem;
             color: #3b2c14;
             line-height: 1.5;
-            font-weight: 400;
         }
 
-        /* Right Side Login Card */
         .login-card {
             width: 440px;
             background: linear-gradient(180deg, #05014a 0%, #0c023d 55%, #47010a 100%);
@@ -78,34 +80,30 @@
 
         .logo-container {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
         }
 
         .logo-container img {
             width: 100px;
             height: auto;
-            margin-bottom: 0.75rem;
-            filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.4));
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.4));
         }
 
         .brand-name {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            letter-spacing: 1px;
-            color: #ffffff;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
         .form-title {
             width: 100%;
             font-size: 0.95rem;
-            font-weight: 400;
             color: #e2e8f0;
             margin-bottom: 1.25rem;
-            text-align: left;
         }
 
-        /* Form Inputs */
         .login-form {
             width: 100%;
         }
@@ -123,19 +121,8 @@
             color: #ffffff;
             font-size: 0.95rem;
             outline: none;
-            transition: all 0.2s ease;
         }
 
-        .form-control::placeholder {
-            color: #a0aec0;
-        }
-
-        .form-control:focus {
-            border-color: #6366f1;
-            background-color: rgba(255, 255, 255, 0.18);
-        }
-
-        /* Footer / Actions */
         .form-actions {
             display: flex;
             align-items: center;
@@ -147,13 +134,6 @@
             color: #ffffff;
             text-decoration: none;
             font-size: 0.9rem;
-            font-weight: 400;
-            transition: opacity 0.2s;
-        }
-
-        .recover-link:hover {
-            opacity: 0.8;
-            text-decoration: underline;
         }
 
         .btn-login {
@@ -165,66 +145,370 @@
             font-size: 0.95rem;
             font-weight: 500;
             cursor: pointer;
-            transition: background 0.2s;
         }
 
-        .btn-login:hover {
-            background-color: #5c5bb2;
+        /* ---------------- DASHBOARD PANEL STYLES ---------------- */
+        #dashboard-view {
+            display: none;
+            background-color: #f3f4f6;
+            min-height: 100vh;
         }
 
-        /* Mobile Responsiveness */
+        .top-navbar {
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .brand-logo-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .brand-logo-group img {
+            width: 32px;
+            height: auto;
+        }
+
+        .brand-logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #3b2c5d;
+        }
+
+        .menu-toggle-btn {
+            font-size: 1.2rem;
+            color: #6b7280;
+            cursor: pointer;
+        }
+
+        .portal-title-text {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .bell-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .user-profile-box {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .user-avatar-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-meta {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .user-meta .name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .user-meta .id {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        .caret-icon {
+            width: 12px;
+            height: 12px;
+        }
+
+        .main-dashboard-layout {
+            display: flex;
+            min-height: calc(100vh - 58px);
+        }
+
+        .sidebar-panel {
+            width: 220px;
+            background-color: #ffffff;
+            border-right: 1px solid #e5e7eb;
+            padding: 1rem 0;
+        }
+
+        .sidebar-section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #3b82f6;
+            padding: 0.75rem 1.25rem 0.25rem;
+            text-transform: uppercase;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 1.25rem;
+            color: #4b5563;
+            text-decoration: none;
+            font-size: 0.88rem;
+        }
+
+        .sidebar-item img {
+            width: 18px;
+            height: 18px;
+        }
+
+        .dashboard-content-area {
+            flex: 1;
+            padding: 1.5rem 2rem;
+        }
+
+        .content-section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #6b7280;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .courses-grid-layout {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .course-card-box {
+            background-color: #e5e7eb;
+            border-radius: 8px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+        }
+
+        .course-card-box .code {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .course-card-box .title {
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+
+        .announcements-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .announcement-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .announcement-table th {
+            text-align: left;
+            font-size: 0.8rem;
+            color: #6b7280;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .announcement-table td {
+            padding: 0.85rem 0;
+            font-size: 0.85rem;
+            color: #374151;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
         @media (max-width: 900px) {
-            body {
-                padding: 1rem;
-            }
-            .container {
-                justify-content: center;
-            }
-            .hero-section {
-                display: none; /* Mobile par left text hide ho jayega exact official LMS ki tarah */
-            }
-            .login-card {
-                width: 100%;
-                max-width: 420px;
-                padding: 2.5rem 1.75rem;
-            }
+            .hero-section { display: none; }
+            .courses-grid-layout { grid-template-columns: 1fr; }
+            .sidebar-panel { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Left Side: Quote / Vision (Desktop Only) -->
-        <div class="hero-section">
-            <h1 class="hero-title">"Educating people<br>for tomorrow"</h1>
-            <p class="hero-subtitle">Realize your fullest potential and<br>university's mission!</p>
-        </div>
-
-        <!-- Right Side: GCU Login Card -->
-        <div class="login-card">
-            <div class="logo-container">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f5/Government_College_University%2CLogo.png" alt="GCU Lahore Crest">
-                <div class="brand-name">GCU LAHORE</div>
+    <!-- 1. LOGIN PAGE VIEW -->
+    <div id="login-view">
+        <div class="login-container">
+            <div class="hero-section">
+                <h1 class="hero-title">"Educating people<br>for tomorrow"</h1>
+                <p class="hero-subtitle">Realize your fullest potential and<br>university's mission!</p>
             </div>
 
-            <div class="form-title">Sign in to your account</div>
-
-            <form class="login-form" onsubmit="event.preventDefault();">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Username" required>
-                </div>
-                
-                <div class="input-group">
-                    <input type="password" class="form-control" placeholder="Password" required>
+            <div class="login-card">
+                <div class="logo-container">
+                    <img src="logo.png" alt="GCU Crest">
+                    <div class="brand-name">GCU LAHORE</div>
                 </div>
 
-                <div class="form-actions">
-                    <a href="#" class="recover-link">Recover Password</a>
-                    <button type="submit" class="btn-login">login</button>
-                </div>
-            </form>
+                <div class="form-title">Sign in to your account</div>
+
+                <form class="login-form" id="loginForm">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" class="form-control" placeholder="Password" required>
+                    </div>
+                    <div class="form-actions">
+                        <a href="#" class="recover-link">Recover Password</a>
+                        <button type="submit" class="btn-login">login</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
+    <!-- 2. STUDENT DASHBOARD VIEW -->
+    <div id="dashboard-view">
+        <nav class="top-navbar">
+            <div class="nav-left">
+                <div class="brand-logo-group">
+                    <img src="logo.png" alt="GCU">
+                    <span class="brand-logo-text">GCU</span>
+                </div>
+                <span class="menu-toggle-btn">&#9776;</span>
+                <span class="portal-title-text" id="portalSystemTitle">GCU L.M.S [Student Panel]</span>
+            </div>
+            <div class="nav-right">
+                <span style="font-size: 1.2rem; cursor: pointer;">🔔</span>
+                <div class="user-profile-box">
+                    <img src="1.png" class="user-avatar-img" id="userAvatar" alt="User">
+                    <img src="caret-down.png" class="caret-icon" alt="v">
+                    <div class="user-meta">
+                        <span class="name" id="studentNameText">Hashir Imran</span>
+                        <span class="id" id="studentIdText">0605-1-25</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="main-dashboard-layout">
+            <aside class="sidebar-panel">
+                <div class="sidebar-section-label">MENU</div>
+                <div id="menuContainer"></div>
+            </aside>
+
+            <main class="dashboard-content-area">
+                <div class="content-section-title">
+                    <span>📚</span> COURSES
+                </div>
+                <div class="courses-grid-layout" id="coursesGrid"></div>
+
+                <div class="announcements-container">
+                    <div class="content-section-title" style="margin-bottom: 0.5rem;">
+                        <span>📢</span> ANNOUNCEMENTS
+                    </div>
+                    <table class="announcement-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="announcementTableBody"></tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- INTEGRATION SCRIPT -->
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('login-view').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'block';
+            loadManifestData();
+        });
+
+        async function loadManifestData() {
+            try {
+                const response = await fetch('manifest.json');
+                const data = await response.json();
+
+                // 1. Populate Student Meta
+                document.getElementById('studentNameText').innerText = data.student_info.name;
+                document.getElementById('studentIdText').innerText = data.student_info.id;
+                document.getElementById('portalSystemTitle').innerText = `${data.student_info.system} [${data.student_info.panel}] ${data.student_info.version || ''}`;
+                if(data.student_info.avatar) {
+                    document.getElementById('userAvatar').src = data.student_info.avatar;
+                }
+
+                // 2. Render Sidebar
+                const menuContainer = document.getElementById('menuContainer');
+                menuContainer.innerHTML = '';
+                let currentSection = '';
+                
+                data.menu_items.forEach(item => {
+                    const menuItem = document.createElement('a');
+                    menuItem.className = 'sidebar-item';
+                    menuItem.href = item.link || '#';
+                    menuItem.innerHTML = `<img src="${item.icon}" alt=""> <span>${item.title}</span>`;
+                    menuContainer.appendChild(menuItem);
+                });
+
+                // 3. Render Courses
+                const coursesGrid = document.getElementById('coursesGrid');
+                coursesGrid.innerHTML = '';
+                data.courses.forEach(course => {
+                    const card = document.createElement('div');
+                    card.className = 'course-card-box';
+                    card.innerHTML = `
+                        <div class="code">${course.code}</div>
+                        <div class="title">${course.title}</div>
+                    `;
+                    coursesGrid.appendChild(card);
+                });
+
+                // 4. Render Announcements
+                const tableBody = document.getElementById('announcementTableBody');
+                tableBody.innerHTML = '';
+                data.announcements.forEach(ann => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${ann.title}</td>
+                        <td>${ann.date}</td>
+                        <td>${ann.details}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+            } catch (error) {
+                console.error("Error loading manifest.json:", error);
+            }
+        }
+    </script>
 </body>
 </html>
