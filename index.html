@@ -159,18 +159,18 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0.5rem 1.2rem;
+            padding: 0.4rem 1rem;
             border-bottom: 1px solid #e5e7eb;
             position: sticky;
             top: 0;
             z-index: 100;
-            height: 58px;
+            height: 54px;
         }
 
         .nav-left {
             display: flex;
             align-items: center;
-            gap: 1.2rem;
+            gap: 1rem;
         }
 
         .brand-logo-group {
@@ -180,19 +180,19 @@
         }
 
         .brand-logo-group img {
-            width: 30px;
+            width: 28px;
             height: auto;
         }
 
         .brand-logo-text {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #3b2c5d;
         }
 
         .menu-toggle-btn {
-            font-size: 1.5rem;
-            color: #2b569a;
+            font-size: 1.4rem;
+            color: #3b82f6;
             cursor: pointer;
             background: none;
             border: none;
@@ -201,19 +201,22 @@
 
         .portal-title-text {
             color: #888888;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
         }
 
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.6rem;
         }
 
-        .bell-icon-img {
-            width: 28px;
-            height: 28px;
-            object-fit: contain;
+        /* Bell Icon Container */
+        .bell-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
             cursor: pointer;
         }
 
@@ -225,13 +228,13 @@
         .user-profile-box {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.5rem;
         }
 
         .user-avatar-img {
-            width: 38px;
-            height: 38px;
-            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
             object-fit: cover;
         }
 
@@ -242,13 +245,13 @@
         }
 
         .user-meta .name {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #374151;
         }
 
         .user-meta .id {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #9ca3af;
         }
 
@@ -262,7 +265,7 @@
             display: none;
             position: absolute;
             right: 0;
-            top: 48px;
+            top: 45px;
             background: #ffffff;
             border-radius: 4px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
@@ -301,7 +304,7 @@
 
         .main-dashboard-layout {
             display: flex;
-            min-height: calc(100vh - 58px);
+            min-height: calc(100vh - 54px);
             position: relative;
         }
 
@@ -352,25 +355,34 @@
 
         .dashboard-content-area {
             flex: 1;
-            padding: 1.2rem;
+            padding: 1rem;
             background-color: #f4f6f9;
         }
 
+        /* Outer White Container Box matching original screenshot */
+        .content-card-box {
+            background-color: #ffffff;
+            border-radius: 6px;
+            padding: 1.2rem 1rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+
         .content-section-title {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: #4a5568;
-            margin-bottom: 1rem;
+            color: #475569;
+            margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
             gap: 0.6rem;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
 
-        /* Fixed Icon Size for Courses and Announcements */
         .content-section-title img {
-            width: 38px;
-            height: 38px;
+            width: 34px;
+            height: 34px;
             object-fit: contain;
         }
 
@@ -378,35 +390,35 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
-            margin-bottom: 2rem;
         }
 
-        .course-card-box {
-            background-color: #eaeff5;
+        /* Course Item Box Exact Match to Original Portal Screenshot */
+        .course-card-item {
+            background-color: #eef2f5;
             border-radius: 6px;
-            padding: 2.2rem 1rem;
+            padding: 1.8rem 0.8rem;
             text-align: center;
             border: 1px solid #e1e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 140px;
         }
 
-        .course-card-box .code {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: #1a202c;
-            margin-bottom: 0.3rem;
+        .course-card-item .code {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.35rem;
+            line-height: 1.2;
         }
 
-        .course-card-box .title {
-            font-size: 0.92rem;
-            color: #4a5568;
+        .course-card-item .title {
+            font-size: 0.95rem;
+            color: #475569;
             font-weight: 500;
-        }
-
-        .announcements-container {
-            background-color: #ffffff;
-            border-radius: 6px;
-            padding: 1.2rem;
-            border: 1px solid #e1e8f0;
+            line-height: 1.3;
         }
 
         .announcement-table {
@@ -433,10 +445,10 @@
             line-height: 1.35;
         }
 
-        /* Mobile Responsive Matching Official Portal */
+        /* Mobile Responsive Matching Official Portal Screenshot */
         @media (max-width: 900px) {
             .hero-section { display: none; }
-            .courses-grid-layout { grid-template-columns: 1fr; }
+            .courses-grid-layout { grid-template-columns: 1fr; gap: 0.9rem; }
             
             .brand-logo-group { display: none; }
             .user-meta { display: none; }
@@ -464,7 +476,24 @@
             }
 
             .dashboard-content-area {
+                padding: 0.6rem;
+            }
+
+            .content-card-box {
                 padding: 1rem 0.8rem;
+            }
+
+            .course-card-item {
+                padding: 2.2rem 1rem;
+                min-height: 150px;
+            }
+
+            .course-card-item .code {
+                font-size: 1.45rem;
+            }
+
+            .course-card-item .title {
+                font-size: 1rem;
             }
         }
     </style>
@@ -515,7 +544,10 @@
                 <span class="portal-title-text" id="portalSystemTitle">GCU L.M.S [Student Panel]</span>
             </div>
             <div class="nav-right">
-                <img src="" class="bell-icon-img" id="bellIconImg" alt="Bell">
+                <!-- Mobile Standard Bell SVG Vector -->
+                <div class="bell-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                </div>
                 
                 <div class="user-profile-wrapper" id="profileDropdownTrigger">
                     <div class="user-profile-box">
@@ -545,13 +577,17 @@
             </aside>
 
             <main class="dashboard-content-area">
-                <div class="content-section-title">
-                    <img id="coursesIconImg" src="" alt=""> COURSES
+                <!-- Courses Outer White Card Container -->
+                <div class="content-card-box">
+                    <div class="content-section-title">
+                        <img id="coursesIconImg" src="" alt=""> COURSES
+                    </div>
+                    <div class="courses-grid-layout" id="coursesGrid"></div>
                 </div>
-                <div class="courses-grid-layout" id="coursesGrid"></div>
 
-                <div class="announcements-container">
-                    <div class="content-section-title" style="margin-bottom: 0.5rem;">
+                <!-- Announcements Outer White Card Container -->
+                <div class="content-card-box">
+                    <div class="content-section-title">
                         <img id="announcementIconImg" src="" alt=""> ANNOUNCEMENTS
                     </div>
                     <table class="announcement-table">
@@ -618,9 +654,6 @@
                 if(data.section_icons) {
                     document.getElementById('coursesIconImg').src = data.section_icons.courses;
                     document.getElementById('announcementIconImg').src = data.section_icons.announcements;
-                    if(data.section_icons.bell) {
-                        document.getElementById('bellIconImg').src = data.section_icons.bell;
-                    }
                 }
 
                 // Render Sidebar Menu with PNGs
@@ -639,7 +672,7 @@
                 coursesGrid.innerHTML = '';
                 data.courses.forEach(course => {
                     const card = document.createElement('div');
-                    card.className = 'course-card-box';
+                    card.className = 'course-card-item';
                     card.innerHTML = `
                         <div class="code">${course.code}</div>
                         <div class="title">${course.title}</div>
