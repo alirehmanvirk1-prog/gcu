@@ -24,7 +24,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 1.5rem;
             color: #1a1a1a;
         }
 
@@ -66,29 +66,30 @@
         .login-card {
             width: 440px;
             background: linear-gradient(180deg, #05014a 0%, #0c023d 55%, #47010a 100%);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 3rem 2.5rem;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             align-items: center;
             color: #ffffff;
+            margin: 0 auto;
         }
 
         .logo-container {
             text-align: center;
-            margin-bottom: 3.5rem;
+            margin-bottom: 3rem;
         }
 
         .logo-container img {
-            width: 110px;
+            width: 100px;
             height: auto;
             margin-bottom: 0.75rem;
             filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.4));
         }
 
         .brand-name {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             letter-spacing: 1px;
             color: #ffffff;
@@ -145,7 +146,7 @@
         .recover-link {
             color: #ffffff;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 400;
             transition: opacity 0.2s;
         }
@@ -171,21 +172,21 @@
             background-color: #5c5bb2;
         }
 
-        /* Responsiveness */
+        /* Mobile Responsiveness */
         @media (max-width: 900px) {
+            body {
+                padding: 1rem;
+            }
             .container {
-                flex-direction: column;
                 justify-content: center;
-                text-align: center;
             }
             .hero-section {
-                padding-left: 0;
+                display: none; /* Mobile par left text hide ho jayega exact official LMS ki tarah */
             }
-            .hero-title {
-                font-size: 2.8rem;
-            }
-            .form-title {
-                text-align: center;
+            .login-card {
+                width: 100%;
+                max-width: 420px;
+                padding: 2.5rem 1.75rem;
             }
         }
     </style>
@@ -193,7 +194,7 @@
 <body>
 
     <div class="container">
-        <!-- Left Side: Quote / Vision -->
+        <!-- Left Side: Quote / Vision (Desktop Only) -->
         <div class="hero-section">
             <h1 class="hero-title">"Educating people<br>for tomorrow"</h1>
             <p class="hero-subtitle">Realize your fullest potential and<br>university's mission!</p>
