@@ -1,0 +1,40 @@
+{
+  "student_info": {
+    "name": "Hashir Imran",
+    "id": "0605-1-25",
+    "panel": "Student Panel",
+    "version": "v03.05.12",
+    "avatar": "1.png"
+  },
+  "menu_items": [
+    { "title": "Home", "icon": "home.png", "link": "#" },
+    { "title": "TimeTable", "icon": "schedule.png", "link": "#" },
+    { "title": "Attendance", "icon": "attendance.png", "link": "#" },
+    { "title": "Grades", "icon": "exam.png", "link": "#" },
+    { "title": "Progress Report", "icon": "market.png", "link": "#" },
+    { "title": "Challans", "icon": "fee.png", "link": "#" }
+  ],
+  "courses": [
+    { "code": "ENG-2001 (E2)", "title": "English" },
+    { "code": "HQ-1004 (E2)", "title": "Translation of the Holy Quran (Comp.)" },
+    { "code": "CHEM-2001 (E2)", "title": "Chemistry" },
+    { "code": "CHEM-2010 P (E2)", "title": "Chemistry Prac" },
+    { "code": "MATH-2001 (E2)", "title": "Mathematics" },
+    { "code": "PS-2001 (E2)", "title": "Pak. Studies" },
+    { "code": "PHY-2010 P (E2)", "title": "Physics Prac" },
+    { "code": "URDU-2001 (E2)", "title": "Urdu" },
+    { "code": "PHY-2001 (E2)", "title": "Physics" }
+  ],
+  "announcements": [
+    {
+      "title": "Q1",
+      "date": "3, Sep , 2026, 9:30 AM",
+      "details": "Quiz of \"Mathematics\" has been Deleted!"
+    },
+    {
+      "title": "Q1",
+      "date": "2, Sep , 2026, 9:30 AM",
+      "details": "Quiz of \"Mathematics\" has been Deleted!"
+    }
+  ]
+}
