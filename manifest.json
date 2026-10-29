@@ -1,6 +1,6 @@
 {
   "student_info": {
-    "name": "Hashir Imran",
+    "name": "HASHIR IMRAN",
     "id": "0605-1-25",
     "panel": "Student Panel",
     "version": "v03.05.12",
@@ -28,17 +28,18 @@
   "announcements": [
     {
       "title": "Q1",
-      "date": "3, Sep , 2026, 9:30 AM",
-      "details": "Quiz of \"Mathematics\" has been Deleted!"
+      "date": "3, Sep ,\n2026, 9:30\nAM",
+      "details": "Quiz of \"Mathematics\"\nhas been Deleted!"
     },
     {
       "title": "Q1",
-      "date": "2, Sep , 2026, 9:30 AM",
-      "details": "Quiz of \"Mathematics\" has been Deleted!"
+      "date": "2, Sep ,\n2026, 9:30\nAM",
+      "details": "Quiz of \"Mathematics\"\nhas been Deleted!"
     }
   ],
   "section_icons": {
     "courses": "Screenshot_2026_1030_020018.png",
-    "announcements": "Screenshot_2026_1030_020504.png"
+    "announcements": "Screenshot_2026_1030_020504.png",
+    "bell": "Screenshot_2026_1030_022658.png"
   }
 }
