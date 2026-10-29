@@ -4,7 +4,7 @@
     "id": "0605-1-25",
     "panel": "Student Panel",
     "version": "v03.05.12",
-    "avatar": "1.png"
+    "avatar": "Screenshot_2026_1030_020002.png"
   },
   "menu_items": [
     { "title": "Home", "icon": "home.png", "link": "#" },
@@ -36,5 +36,9 @@
       "date": "2, Sep , 2026, 9:30 AM",
       "details": "Quiz of \"Mathematics\" has been Deleted!"
     }
-  ]
+  ],
+  "section_icons": {
+    "courses": "Screenshot_2026_1030_020018.png",
+    "announcements": "Screenshot_2026_1030_020504.png"
+  }
 }

@@ -24,7 +24,7 @@
             color: #1a1a1a;
         }
 
-        /* ---------------- LOGIN PAGE STYLES ---------------- */
+        /* LOGIN PAGE VIEW */
         #login-view {
             display: flex;
             align-items: center;
@@ -147,7 +147,7 @@
             cursor: pointer;
         }
 
-        /* ---------------- DASHBOARD PANEL STYLES ---------------- */
+        /* DASHBOARD PANEL VIEW */
         #dashboard-view {
             display: none;
             background-color: #f3f4f6;
@@ -161,6 +161,9 @@
             justify-content: space-between;
             padding: 0.6rem 1.5rem;
             border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .nav-left {
@@ -187,9 +190,11 @@
         }
 
         .menu-toggle-btn {
-            font-size: 1.2rem;
-            color: #6b7280;
+            font-size: 1.4rem;
+            color: #4b5563;
             cursor: pointer;
+            background: none;
+            border: none;
         }
 
         .portal-title-text {
@@ -203,9 +208,8 @@
             gap: 1.2rem;
         }
 
-        .bell-icon {
-            width: 24px;
-            height: 24px;
+        .user-profile-wrapper {
+            position: relative;
             cursor: pointer;
         }
 
@@ -218,7 +222,7 @@
         .user-avatar-img {
             width: 36px;
             height: 36px;
-            border-radius: 50%;
+            border-radius: 6px;
             object-fit: cover;
         }
 
@@ -244,16 +248,61 @@
             height: 12px;
         }
 
+        /* Profile Dropdown Menu */
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 45px;
+            background: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            width: 200px;
+            z-index: 1000;
+            border: 1px solid #e5e7eb;
+        }
+
+        .profile-dropdown.active {
+            display: block;
+        }
+
+        .dropdown-header {
+            background-color: #3b82f6;
+            color: #ffffff;
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.65rem 1rem;
+            color: #374151;
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f9fafb;
+        }
+
         .main-dashboard-layout {
             display: flex;
             min-height: calc(100vh - 58px);
+            position: relative;
         }
 
+        /* Sidebar & Mobile Drawer */
         .sidebar-panel {
-            width: 220px;
+            width: 240px;
             background-color: #ffffff;
             border-right: 1px solid #e5e7eb;
             padding: 1rem 0;
+            transition: transform 0.3s ease;
         }
 
         .sidebar-section-label {
@@ -268,15 +317,20 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0.6rem 1.25rem;
+            padding: 0.75rem 1.25rem;
             color: #4b5563;
             text-decoration: none;
             font-size: 0.88rem;
         }
 
+        .sidebar-item:hover {
+            background-color: #f3f4f6;
+        }
+
         .sidebar-item img {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
         }
 
         .dashboard-content-area {
@@ -294,6 +348,12 @@
             gap: 0.5rem;
         }
 
+        .content-section-title img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
         .courses-grid-layout {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -306,6 +366,7 @@
             border-radius: 8px;
             padding: 2.5rem 1.5rem;
             text-align: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         .course-card-box .code {
@@ -348,16 +409,35 @@
             border-bottom: 1px solid #f3f4f6;
         }
 
+        /* Mobile Responsive Drawer & Layout */
         @media (max-width: 900px) {
             .hero-section { display: none; }
             .courses-grid-layout { grid-template-columns: 1fr; }
-            .sidebar-panel { display: none; }
+            
+            .sidebar-panel {
+                position: fixed;
+                left: -260px;
+                top: 58px;
+                height: calc(100vh - 58px);
+                z-index: 999;
+                background: #ffffff;
+                box-shadow: 4px 0 12px rgba(0,0,0,0.15);
+                transition: left 0.3s ease;
+            }
+
+            .sidebar-panel.mobile-open {
+                left: 0;
+            }
+
+            .portal-title-text {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. LOGIN PAGE VIEW -->
+    <!-- LOGIN PAGE VIEW -->
     <div id="login-view">
         <div class="login-container">
             <div class="hero-section">
@@ -389,7 +469,7 @@
         </div>
     </div>
 
-    <!-- 2. STUDENT DASHBOARD VIEW -->
+    <!-- STUDENT DASHBOARD VIEW -->
     <div id="dashboard-view">
         <nav class="top-navbar">
             <div class="nav-left">
@@ -397,37 +477,47 @@
                     <img src="logo.png" alt="GCU">
                     <span class="brand-logo-text">GCU</span>
                 </div>
-                <span class="menu-toggle-btn">&#9776;</span>
+                <button class="menu-toggle-btn" id="menuToggleBtn">&#9776;</button>
                 <span class="portal-title-text" id="portalSystemTitle">GCU L.M.S [Student Panel]</span>
             </div>
             <div class="nav-right">
-                <span style="font-size: 1.2rem; cursor: pointer;">🔔</span>
-                <div class="user-profile-box">
-                    <img src="1.png" class="user-avatar-img" id="userAvatar" alt="User">
-                    <img src="caret-down.png" class="caret-icon" alt="v">
-                    <div class="user-meta">
-                        <span class="name" id="studentNameText">Hashir Imran</span>
-                        <span class="id" id="studentIdText">0605-1-25</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4b5563" stroke-width="2" style="cursor: pointer;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                
+                <div class="user-profile-wrapper" id="profileDropdownTrigger">
+                    <div class="user-profile-box">
+                        <img src="" class="user-avatar-img" id="userAvatar" alt="User">
+                        <img src="caret-down.png" class="caret-icon" alt="v">
+                        <div class="user-meta">
+                            <span class="name" id="studentNameText">Hashir Imran</span>
+                            <span class="id" id="studentIdText">0605-1-25</span>
+                        </div>
+                    </div>
+                    <!-- Profile Popup Menu -->
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="dropdown-header">HASHIR IMRAN</div>
+                        <a href="#" class="dropdown-item">Profile</a>
+                        <a href="#" class="dropdown-item">Change Password</a>
+                        <a href="#" class="dropdown-item" onclick="location.reload()">Logout</a>
                     </div>
                 </div>
             </div>
         </nav>
 
         <div class="main-dashboard-layout">
-            <aside class="sidebar-panel">
+            <aside class="sidebar-panel" id="sidebarPanel">
                 <div class="sidebar-section-label">MENU</div>
                 <div id="menuContainer"></div>
             </aside>
 
             <main class="dashboard-content-area">
                 <div class="content-section-title">
-                    <span>📚</span> COURSES
+                    <img id="coursesIconImg" src="" alt=""> COURSES
                 </div>
                 <div class="courses-grid-layout" id="coursesGrid"></div>
 
                 <div class="announcements-container">
                     <div class="content-section-title" style="margin-bottom: 0.5rem;">
-                        <span>📢</span> ANNOUNCEMENTS
+                        <img id="announcementIconImg" src="" alt=""> ANNOUNCEMENTS
                     </div>
                     <table class="announcement-table">
                         <thead>
@@ -444,7 +534,7 @@
         </div>
     </div>
 
-    <!-- INTEGRATION SCRIPT -->
+    <!-- SCRIPT FOR INTEGRATION -->
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -453,24 +543,43 @@
             loadManifestData();
         });
 
+        // Mobile Sidebar Toggle
+        document.getElementById('menuToggleBtn').addEventListener('click', function() {
+            document.getElementById('sidebarPanel').classList.toggle('mobile-open');
+        });
+
+        // Profile Dropdown Toggle
+        document.getElementById('profileDropdownTrigger').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('profileDropdown').classList.toggle('active');
+        });
+
+        window.addEventListener('click', function() {
+            document.getElementById('profileDropdown').classList.remove('active');
+        });
+
         async function loadManifestData() {
             try {
                 const response = await fetch('manifest.json');
                 const data = await response.json();
 
-                // 1. Populate Student Meta
+                // Student Meta
                 document.getElementById('studentNameText').innerText = data.student_info.name;
                 document.getElementById('studentIdText').innerText = data.student_info.id;
-                document.getElementById('portalSystemTitle').innerText = `${data.student_info.system} [${data.student_info.panel}] ${data.student_info.version || ''}`;
+                document.getElementById('portalSystemTitle').innerText = `${data.student_info.system || 'GCU L.M.S'} [${data.student_info.panel}] ${data.student_info.version || ''}`;
                 if(data.student_info.avatar) {
                     document.getElementById('userAvatar').src = data.student_info.avatar;
                 }
 
-                // 2. Render Sidebar
+                // Section Icons from JSON
+                if(data.section_icons) {
+                    document.getElementById('coursesIconImg').src = data.section_icons.courses;
+                    document.getElementById('announcementIconImg').src = data.section_icons.announcements;
+                }
+
+                // Render Sidebar Menu with PNGs
                 const menuContainer = document.getElementById('menuContainer');
                 menuContainer.innerHTML = '';
-                let currentSection = '';
-                
                 data.menu_items.forEach(item => {
                     const menuItem = document.createElement('a');
                     menuItem.className = 'sidebar-item';
@@ -479,7 +588,7 @@
                     menuContainer.appendChild(menuItem);
                 });
 
-                // 3. Render Courses
+                // Render Courses
                 const coursesGrid = document.getElementById('coursesGrid');
                 coursesGrid.innerHTML = '';
                 data.courses.forEach(course => {
@@ -492,7 +601,7 @@
                     coursesGrid.appendChild(card);
                 });
 
-                // 4. Render Announcements
+                // Render Announcements
                 const tableBody = document.getElementById('announcementTableBody');
                 tableBody.innerHTML = '';
                 data.announcements.forEach(ann => {
