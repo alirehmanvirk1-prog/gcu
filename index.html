@@ -242,8 +242,8 @@
                             <div class="chart-box">
                                 <h4>OVERALL ATTENDANCE REPORT WITH DETAIL</h4>
                                 <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 5px; font-size: 0.75rem; font-weight: 700; color: #64748b;">
-                                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #ff6384; display: inline-block;"></span> ABSENTS</span>
-                                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #36a2eb; display: inline-block;"></span> PRESENTS</span>
+                                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #FFA1B5; display: inline-block;"></span> ABSENTS</span>
+                                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #86C7F3; display: inline-block;"></span> PRESENTS</span>
                                     <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #ffce56; display: inline-block;"></span> LEAVES</span>
                                 </div>
                                 <div style="width:190px; margin:0 auto;"><canvas id="pieChart"></canvas></div>
@@ -425,7 +425,7 @@
                     labels: ['Absents', 'Presents', 'Leaves'],
                     datasets: [{ 
                         data: [data.absents, data.presents, data.leaves], 
-                        backgroundColor: ['#ff6384', '#36a2eb', '#ffce56'] 
+                        backgroundColor: ['#FFA1B5', '#86C7F3', '#ffce56'] 
                     }]
                 },
                 options: { plugins: { legend: { display: false } } }
