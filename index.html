@@ -166,13 +166,13 @@
                         <img src="Screenshot_2026_1030_020002.png" class="user-avatar-img" id="userAvatar" alt="User">
                         <img src="caret-down.png" class="caret-icon" alt="v">
                         <div class="user-meta">
-                            <span class="name" id="studentNameText">HASHIR IMRAN</span>
+                            <span class="name" id="studentNameText">ABDUL AHAD</span>
                             <span class="id" id="studentIdText">0605-1-25</span>
                         </div>
                     </div>
                     <!-- Profile Popup Menu -->
                     <div class="profile-dropdown" id="profileDropdown">
-                        <div class="dropdown-header" id="dropdownStudentHeader">HASHIR IMRAN</div>
+                        <div class="dropdown-header" id="dropdownStudentHeader">ABDUL AHAD</div>
                         <a href="#" class="dropdown-item">Profile</a>
                         <a href="#" class="dropdown-item">Change Password</a>
                         <a href="#" class="dropdown-item" onclick="location.reload()">Logout</a>
@@ -287,11 +287,22 @@
         let pieChartInst = null;
         let lineChartInst = null;
 
+        // Custom Subjects provided by Abdul Ahad
+        const customCourses = [
+            { code: "HIST-101", title: "History of Pakistan" },
+            { code: "HPE-102", title: "Health and Physical Education" },
+            { code: "CIV-103", title: "Civics" },
+            { code: "ENG-104", title: "English" },
+            { code: "URD-105", title: "Urdu" },
+            { code: "PAK-106", title: "Pak Studies" },
+            { code: "ISL-107", title: "Translation of the Holy Quran" }
+        ];
+
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             document.getElementById('login-view').style.display = 'none';
             document.getElementById('dashboard-view').style.display = 'block';
-            loadManifestData();
+            loadPortalData();
         });
 
         // Navigation Switcher
@@ -328,31 +339,33 @@
             document.getElementById('sidebarPanel').classList.remove('mobile-open');
         });
 
-        async function loadManifestData() {
+        async function loadPortalData() {
             try {
-                const response = await fetch('manifest.json');
-                const data = await response.json();
+                // Try fetching manifest.json for extra elements if available, but inject custom subjects & name securely
+                let avatarSrc = "Screenshot_2026_1030_020002.png";
+                let sectionIcons = { courses: "schedule.png", announcements: "exam.png" };
+                let announcements = [
+                    { title: "Welcome to New Semester", date: "01 Nov, 2026", details: "Classes have officially started for Abdul Ahad." }
+                ];
 
-                // Student Meta
-                document.getElementById('studentNameText').innerText = data.student_info.name;
-                document.getElementById('dropdownStudentHeader').innerText = data.student_info.name;
-                document.getElementById('studentIdText').innerText = data.student_info.id;
-                document.getElementById('portalSystemTitle').innerText = `${data.student_info.system || 'GCU L.M.S'} [${data.student_info.panel}] ${data.student_info.version || ''}`;
-                
-                if(data.student_info.avatar) {
-                    document.getElementById('userAvatar').src = data.student_info.avatar;
+                try {
+                    const response = await fetch('manifest.json');
+                    const data = await response.json();
+                    if(data.student_info && data.student_info.avatar) avatarSrc = data.student_info.avatar;
+                    if(data.section_icons) sectionIcons = data.section_icons;
+                    if(data.announcements) announcements = data.announcements;
+                } catch(err) {
+                    console.log("Using internal fallback data.");
                 }
 
-                // Section Icons
-                if(data.section_icons) {
-                    document.getElementById('coursesIconImg').src = data.section_icons.courses;
-                    document.getElementById('announcementIconImg').src = data.section_icons.announcements;
-                }
+                document.getElementById('userAvatar').src = avatarSrc;
+                document.getElementById('coursesIconImg').src = sectionIcons.courses;
+                document.getElementById('announcementIconImg').src = sectionIcons.announcements;
 
                 // Render Home Courses
                 const coursesGrid = document.getElementById('coursesGrid');
                 coursesGrid.innerHTML = '';
-                data.courses.forEach(course => {
+                customCourses.forEach(course => {
                     const card = document.createElement('div');
                     card.className = 'course-card-item';
                     card.innerHTML = `
@@ -365,7 +378,7 @@
                 // Render Home Announcements
                 const tableBody = document.getElementById('announcementTableBody');
                 tableBody.innerHTML = '';
-                data.announcements.forEach(ann => {
+                announcements.forEach(ann => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${ann.title}</td>
@@ -375,11 +388,11 @@
                     tableBody.appendChild(row);
                 });
 
-                // Populate Attendance Dropdown
-                populateCourseDropdown(data.courses || []);
+                // Populate Attendance Dropdown with Custom Subjects
+                populateCourseDropdown(customCourses);
 
             } catch (error) {
-                console.error("Error loading manifest.json:", error);
+                console.error("Error loading portal data:", error);
             }
         }
 
