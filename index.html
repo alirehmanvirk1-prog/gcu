@@ -241,6 +241,11 @@
                         <div class="attendance-grid">
                             <div class="chart-box">
                                 <h4>OVERALL ATTENDANCE REPORT WITH DETAIL</h4>
+                                <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 5px; font-size: 0.75rem; font-weight: 700; color: #64748b;">
+                                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #ff6384; display: inline-block;"></span> ABSENTS</span>
+                                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #36a2eb; display: inline-block;"></span> PRESENTS</span>
+                                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #ffce56; display: inline-block;"></span> LEAVES</span>
+                                </div>
                                 <div style="width:190px; margin:0 auto;"><canvas id="pieChart"></canvas></div>
                                 <div class="stats-summary">
                                     <span>PRESENTS: <span id="valPresents">0</span></span>
@@ -388,7 +393,7 @@
         function fetchAttendanceFromDB(courseCode) {
             const mockDbResponse = {
                 presents: 2, absents: 37, leaves: 0, percentage: "5.13%",
-                monthlyData: { labels: ['Aug', 'Sep', 'Oct'], absents: [8, 16, 13], presents: [0, 1, 1] },
+                monthlyData: { labels: ['Oct', 'Sep', 'Aug'], absents: [13, 16, 8], presents: [1, 1, 0] },
                 records: [
                     { sr: 1, date: "29 Oct, 2026", status: "Absent" },
                     { sr: 2, date: "28 Oct, 2026", status: "Present" },
@@ -420,7 +425,7 @@
                     labels: ['Absents', 'Presents', 'Leaves'],
                     datasets: [{ 
                         data: [data.absents, data.presents, data.leaves], 
-                        backgroundColor: ['#dc3545', '#28a745', '#ffc107'] // Updated with styles.css color scheme 
+                        backgroundColor: ['#ff6384', '#36a2eb', '#ffce56'] 
                     }]
                 },
                 options: { plugins: { legend: { display: false } } }
@@ -433,7 +438,8 @@
                     labels: data.monthlyData.labels,
                     datasets: [
                         { label: 'Absent', data: data.monthlyData.absents, borderColor: '#8b5cf6', fill: false, tension: 0.3 },
-                        { label: 'Present', data: data.monthlyData.presents, borderColor: '#0284c7', fill: false, tension: 0.3 }
+                        { label: 'Present', data: data.monthlyData.presents, borderColor: '#0284c7', fill: false, tension: 0.3 },
+                        { label: 'Leaves', data: [0, 0, 0], borderColor: '#eab308', fill: false, tension: 0.3 }
                     ]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
