@@ -89,7 +89,7 @@
         .timetable-table th { background: #343a40; color: #fff; text-align: left; padding: 0.6rem; font-size: 0.82rem; }
         .timetable-table td { padding: 0.65rem; border-bottom: 1px solid #e2e8f0; font-size: 0.85rem; color: #334155; }
 
-        /* ATTENDANCE PAGE SPECIFIC STYLING (Matched with original portal screenshot 1000127685_2.png) */
+        /* ATTENDANCE PAGE SPECIFIC STYLING */
         .attendance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
         .chart-box { background: #fff; padding: 1rem; border-radius: 6px; border: 1px solid #e2e8f0; text-align: center; }
         .chart-box h4 { font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -288,14 +288,15 @@
                                     <!-- Dynamic Course Options -->
                                 </select>
 
-                                <!-- Horizontal Legends exactly matching screenshot 1000127685_2.png -->
+                                <!-- Horizontal Legends exactly matching original screenshot -->
                                 <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 8px; font-size: 0.75rem; font-weight: 700; color: #64748b;">
                                     <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #FFA1B5; display: inline-block;"></span> ABSENTS</span>
                                     <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #86C7F3; display: inline-block;"></span> PRESENTS</span>
                                     <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #ffce56; display: inline-block;"></span> LEAVES</span>
                                 </div>
 
-                                <div style="width:190px; margin:0 auto;"><canvas id="pieChart"></canvas></div>
+                                <!-- Compact Pie Chart Size for Mobile View -->
+                                <div style="width:135px; margin:0 auto;"><canvas id="pieChart"></canvas></div>
                                 
                                 <div class="stats-summary">
                                     <span>PRESENTS: <span id="valPresents">0</span></span>
