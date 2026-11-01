@@ -195,7 +195,7 @@
 
             <main class="dashboard-content-area">
                 
-                <!-- HOME VIEW (EXACT ORIGINAL) -->
+                <!-- HOME VIEW -->
                 <div id="home-view" class="page-view active">
                     <div class="content-card-box">
                         <div class="content-section-title">
@@ -386,7 +386,6 @@
 
         /* DATABASE HOOK FOR ATTENDANCE */
         function fetchAttendanceFromDB(courseCode) {
-            // Future Backend Database API Hook connection goes here
             const mockDbResponse = {
                 presents: 2, absents: 37, leaves: 0, percentage: "5.13%",
                 monthlyData: { labels: ['Aug', 'Sep', 'Oct'], absents: [8, 16, 13], presents: [0, 1, 1] },
@@ -419,7 +418,10 @@
                 type: 'pie',
                 data: {
                     labels: ['Absents', 'Presents', 'Leaves'],
-                    datasets: [{ data: [data.absents, data.presents, data.leaves], backgroundColor: ['#ff6384', '#36a2eb', '#ffce56'] }]
+                    datasets: [{ 
+                        data: [data.absents, data.presents, data.leaves], 
+                        backgroundColor: ['#dc3545', '#28a745', '#ffc107'] // Updated with styles.css color scheme 
+                    }]
                 },
                 options: { plugins: { legend: { display: false } } }
             });
