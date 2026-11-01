@@ -89,7 +89,7 @@
         .timetable-table th { background: #343a40; color: #fff; text-align: left; padding: 0.6rem; font-size: 0.82rem; }
         .timetable-table td { padding: 0.65rem; border-bottom: 1px solid #e2e8f0; font-size: 0.85rem; color: #334155; }
 
-        /* ATTENDANCE PAGE SPECIFIC STYLING */
+        /* ATTENDANCE PAGE SPECIFIC STYLING (Matched with original portal screenshot 1000127685_2.png) */
         .attendance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
         .chart-box { background: #fff; padding: 1rem; border-radius: 6px; border: 1px solid #e2e8f0; text-align: center; }
         .chart-box h4 { font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -280,19 +280,23 @@
                     <div class="content-card-box">
                         <div class="content-section-title"><img src="attendance.png" alt=""> COURSES</div>
                         
-                        <select class="select-course-dropdown" id="courseSelect" onchange="fetchAttendanceFromDB(this.value)">
-                            <!-- Dynamic Course Options -->
-                        </select>
-
                         <div class="attendance-grid">
                             <div class="chart-box">
                                 <h4>OVERALL ATTENDANCE REPORT WITH DETAIL</h4>
-                                <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 5px; font-size: 0.75rem; font-weight: 700; color: #64748b;">
+                                
+                                <select class="select-course-dropdown" id="courseSelect" onchange="fetchAttendanceFromDB(this.value)">
+                                    <!-- Dynamic Course Options -->
+                                </select>
+
+                                <!-- Horizontal Legends exactly matching screenshot 1000127685_2.png -->
+                                <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 8px; font-size: 0.75rem; font-weight: 700; color: #64748b;">
                                     <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #FFA1B5; display: inline-block;"></span> ABSENTS</span>
                                     <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #86C7F3; display: inline-block;"></span> PRESENTS</span>
                                     <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #ffce56; display: inline-block;"></span> LEAVES</span>
                                 </div>
+
                                 <div style="width:190px; margin:0 auto;"><canvas id="pieChart"></canvas></div>
+                                
                                 <div class="stats-summary">
                                     <span>PRESENTS: <span id="valPresents">0</span></span>
                                     <span>ABSENTS: <span id="valAbsents">0</span></span>
@@ -302,9 +306,15 @@
                                     PERCENTAGE: <span id="valPercentage">0.00%</span>
                                 </div>
                             </div>
+
                             <div class="chart-box">
                                 <h4>MONTHLY REPORT</h4>
-                                <div style="height: 220px;"><canvas id="lineChart"></canvas></div>
+                                <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 12px; font-size: 0.75rem; font-weight: 700; color: #64748b;">
+                                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; border: 2px solid #8b5cf6; display: inline-block;"></span> Absent</span>
+                                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #0284c7; display: inline-block;"></span> Present</span>
+                                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 12px; background-color: #eab308; display: inline-block;"></span> Leaves</span>
+                                </div>
+                                <div style="height: 200px;"><canvas id="lineChart"></canvas></div>
                             </div>
                         </div>
 
@@ -333,7 +343,7 @@
         let pieChartInst = null;
         let lineChartInst = null;
 
-        // Abdul Ahad's Exact Subjects from Timetable Image
+        // Abdul Ahad's Exact Subjects from Timetable
         const customCourses = [
             { code: "PS-2001", title: "Pak. Studies" },
             { code: "HP-2001", title: "History of Pakistan" },
@@ -447,7 +457,7 @@
             if(courses.length > 0) fetchAttendanceFromDB(courses[0].code);
         }
 
-        /* AUTOMATED TIMETABLE & RANDOM NATURAL ATTENDANCE (87% to 97%) */
+        /* TIMETABLE & NATURAL RANDOM ATTENDANCE (87% to 97%) */
         function fetchAttendanceFromDB(courseCode) {
             let records = [];
             let startDate = new Date('2026-08-17');
@@ -455,10 +465,6 @@
             let currentDate = new Date(startDate);
             let sr = 1;
 
-            let presentsCount = 0;
-            let absentsCount = 0;
-
-            // Monthly breakdown counters for chart
             let monthlyStats = {
                 "Aug": { present: 0, absent: 0 },
                 "Sep": { present: 0, absent: 0 },
@@ -466,11 +472,14 @@
                 "Nov": { present: 0, absent: 0 }
             };
 
+            let charSum = 0;
+            for(let i=0; i<courseCode.length; i++) charSum += courseCode.charCodeAt(i);
+            let targetPercentage = 0.87 + ((charSum % 11) * 0.01);
+
             while (currentDate <= endDate) {
                 let dayOfWeek = currentDate.getDay(); // 1: Mon, 2: Tue, 3: Wed, 4: Thu, 5: Fri
                 let isClassDay = false;
 
-                // Timetable mapping as per uploaded image
                 if (dayOfWeek === 1) { // Monday
                     if (["PS-2001", "HP-2001", "CV-2002", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
                 } else if (dayOfWeek === 2) { // Tuesday
@@ -485,22 +494,18 @@
 
                 if (isClassDay) {
                     let monthName = currentDate.toLocaleString('en-US', { month: 'short' });
-                    
-                    // Generate natural random status with ~92% chance of Present (giving ~87-97% overall range)
                     let randomVal = Math.random();
-                    let status = (randomVal < 0.92) ? "Present" : "Absent";
+                    let status = (randomVal < targetPercentage) ? "Present" : "Absent";
 
                     if (status === "Present") {
-                        presentsCount++;
                         if(monthlyStats[monthName]) monthlyStats[monthName].present++;
                     } else {
-                        absentsCount++;
                         if(monthlyStats[monthName]) monthlyStats[monthName].absent++;
                     }
 
                     let formattedDate = currentDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
                     records.push({
-                        sr: 0, // temporary
+                        sr: 0,
                         date: formattedDate,
                         status: status
                     });
@@ -508,22 +513,27 @@
                 currentDate.setDate(currentDate.getDate() + 1);
             }
 
-            // Reverse to show latest dates on top
             records.reverse();
             records.forEach((r, index) => { r.sr = index + 1; });
 
-            let totalClasses = presentsCount + absentsCount;
-            let percentage = totalClasses > 0 ? ((presentsCount / totalClasses) * 100).toFixed(2) + "%" : "0.00%";
+            let totalPresents = 0, totalAbsents = 0;
+            Object.keys(monthlyStats).forEach(m => {
+                totalPresents += monthlyStats[m].present;
+                totalAbsents += monthlyStats[m].absent;
+            });
+
+            let totalClasses = totalPresents + totalAbsents;
+            let percentage = totalClasses > 0 ? ((totalPresents / totalClasses) * 100).toFixed(2) + "%" : "0.00%";
 
             const mockDbResponse = {
-                presents: presentsCount,
-                absents: absentsCount,
+                presents: totalPresents,
+                absents: totalAbsents,
                 leaves: 0,
                 percentage: percentage,
                 monthlyData: { 
-                    labels: ['Nov', 'Oct', 'Sep', 'Aug'], 
-                    absents: [monthlyStats["Nov"].absent, monthlyStats["Oct"].absent, monthlyStats["Sep"].absent, monthlyStats["Aug"].absent], 
-                    presents: [monthlyStats["Nov"].present, monthlyStats["Oct"].present, monthlyStats["Sep"].present, monthlyStats["Aug"].present] 
+                    labels: ['Oct', 'Sep', 'Aug'], 
+                    absents: [monthlyStats["Oct"].absent, monthlyStats["Sep"].absent, monthlyStats["Aug"].absent], 
+                    presents: [monthlyStats["Oct"].present, monthlyStats["Sep"].present, monthlyStats["Aug"].present] 
                 },
                 records: records
             };
@@ -567,7 +577,7 @@
                     datasets: [
                         { label: 'Absent', data: data.monthlyData.absents, borderColor: '#8b5cf6', fill: false, tension: 0.3 },
                         { label: 'Present', data: data.monthlyData.presents, borderColor: '#0284c7', fill: false, tension: 0.3 },
-                        { label: 'Leaves', data: [0, 0, 0, 0], borderColor: '#eab308', fill: false, tension: 0.3 }
+                        { label: 'Leaves', data: [0, 0, 0], borderColor: '#eab308', fill: false, tension: 0.3 }
                     ]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
