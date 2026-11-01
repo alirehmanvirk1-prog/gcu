@@ -5,698 +5,343 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GCU Lahore - LMS Portal</title>
     
-    <!-- Fonts -->
+    <!-- Fonts & Chart.js -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f6f9; color: #1a1a1a; min-height: 100vh; }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #d1b16c;
-            min-height: 100vh;
-            color: #1a1a1a;
-        }
-
-        /* LOGIN PAGE VIEW */
-        #login-view {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 1.5rem;
-        }
-
-        .login-container {
-            width: 100%;
-            max-width: 1280px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 3rem;
-            min-height: 80vh;
-        }
-
-        .hero-section {
-            flex: 1;
-            max-width: 600px;
-            padding-left: 2rem;
-        }
-
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            font-weight: 900;
-            line-height: 1.1;
-            color: #4a0d0d;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: #3b2c14;
-            line-height: 1.5;
-        }
-
-        .login-card {
-            width: 440px;
-            background: linear-gradient(180deg, #05014a 0%, #0c023d 55%, #47010a 100%);
-            border-radius: 12px;
-            padding: 3rem 2.5rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #ffffff;
-            margin: 0 auto;
-        }
-
-        .logo-container {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .logo-container img {
-            width: 100px;
-            height: auto;
-            margin-bottom: 0.5rem;
-            filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.4));
-        }
-
-        .brand-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
-        .form-title {
-            width: 100%;
-            font-size: 0.95rem;
-            color: #e2e8f0;
-            margin-bottom: 1.25rem;
-        }
-
-        .login-form {
-            width: 100%;
-        }
-
-        .input-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.85rem 1.1rem;
-            background-color: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .form-actions {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 2.5rem;
-        }
-
-        .recover-link {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-
-        .btn-login {
-            background-color: #4c4b92;
-            color: #ffffff;
-            border: none;
-            padding: 0.65rem 1.8rem;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-        }
-
-        /* DASHBOARD PANEL VIEW */
-        #dashboard-view {
-            display: none;
-            background-color: #f4f6f9;
-            min-height: 100vh;
-        }
-
+        /* NAVBAR */
         .top-navbar {
-            background-color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.4rem 1rem;
-            border-bottom: 1px solid #e5e7eb;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            height: 54px;
+            background-color: #ffffff; display: flex; align-items: center; justify-content: space-between;
+            padding: 0.4rem 1rem; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 100; height: 54px;
         }
+        .nav-left { display: flex; align-items: center; gap: 1rem; }
+        .brand-logo-group { display: flex; align-items: center; gap: 0.5rem; }
+        .brand-logo-group img { width: 28px; height: auto; }
+        .brand-logo-text { font-size: 1.3rem; font-weight: 700; color: #3b2c5d; }
+        .menu-toggle-btn { font-size: 1.4rem; color: #3b82f6; cursor: pointer; background: none; border: none; }
+        .portal-title-text { color: #888888; font-size: 0.88rem; }
+        .nav-right { display: flex; align-items: center; gap: 0.8rem; }
+        .bell-box { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; cursor: pointer; }
+        .user-profile-box { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
+        .user-avatar-img { width: 36px; height: 36px; border-radius: 6px; object-fit: cover; }
+        .user-meta { display: flex; flex-direction: column; line-height: 1.2; }
+        .user-meta .name { font-size: 0.85rem; font-weight: 600; color: #374151; }
+        .user-meta .id { font-size: 0.72rem; color: #9ca3af; }
 
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+        /* LAYOUT & SIDEBAR */
+        .main-dashboard-layout { display: flex; min-height: calc(100vh - 54px); }
+        .sidebar-panel { width: 240px; background-color: #ffffff; border-right: 1px solid #e5e7eb; padding: 1rem 0; transition: left 0.3s ease; }
+        .sidebar-section-label { font-size: 0.75rem; font-weight: 700; color: #3b82f6; padding: 0.75rem 1.25rem 0.25rem; text-transform: uppercase; }
+        .sidebar-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; color: #4b5563; text-decoration: none; font-size: 0.88rem; }
+        .sidebar-item:hover, .sidebar-item.active { background-color: #e2e8f0; color: #1e3a8a; font-weight: 600; }
+        .sidebar-item img { width: 20px; height: 20px; object-fit: contain; }
 
-        .brand-logo-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+        .dashboard-content-area { flex: 1; padding: 1.2rem; background-color: #f4f6f9; }
+        .page-view { display: none; }
+        .page-view.active { display: block; }
 
-        .brand-logo-group img {
-            width: 28px;
-            height: auto;
-        }
+        /* CONTENT CARDS */
+        .content-card-box { background-color: #ffffff; border-radius: 6px; padding: 1.2rem 1rem; margin-bottom: 1.2rem; border: 1px solid #e2e8f0; }
+        .content-section-title { font-size: 1.25rem; font-weight: 700; color: #475569; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; }
+        .content-section-title img { width: 34px; height: 34px; object-fit: contain; }
 
-        .brand-logo-text {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #3b2c5d;
-        }
+        /* TIMETABLE STYLING */
+        .day-title { font-size: 1.1rem; font-weight: 700; color: #1e3a8a; margin: 1rem 0 0.5rem 0; border-bottom: 2px solid #3b82f6; display: inline-block; padding-bottom: 2px; }
+        .timetable-table, .data-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; background: #fff; }
+        .timetable-table th, .data-table th { background: #343a40; color: #fff; text-align: left; padding: 0.6rem; font-size: 0.82rem; }
+        .timetable-table td, .data-table td { padding: 0.65rem; border-bottom: 1px solid #e2e8f0; font-size: 0.85rem; }
+        .timetable-table tr:nth-child(even) { background-color: #f8fafc; }
 
-        .menu-toggle-btn {
-            font-size: 1.4rem;
-            color: #3b82f6;
-            cursor: pointer;
-            background: none;
-            border: none;
-            line-height: 1;
-        }
+        /* ATTENDANCE SECTION EXACT UI */
+        .attendance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .chart-box { background: #fff; padding: 1rem; border-radius: 6px; border: 1px solid #e2e8f0; text-align: center; }
+        .chart-box h4 { font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stats-summary { display: flex; justify-content: space-around; margin-top: 1rem; font-size: 0.82rem; font-weight: 700; color: #334155; }
+        .select-course-dropdown { width: 100%; padding: 0.55rem; border: 1px solid #cbd5e1; border-radius: 4px; margin-bottom: 1rem; font-size: 0.88rem; color: #334155; background: #fff; }
+        .search-input { width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px; margin-bottom: 1rem; font-size: 0.85rem; }
+        .status-absent { color: #dc2626; font-weight: 600; }
+        .status-present { color: #16a34a; font-weight: 600; }
 
-        .portal-title-text {
-            color: #888888;
-            font-size: 0.88rem;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        /* Bell Icon Container */
-        .bell-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 34px;
-            height: 34px;
-            cursor: pointer;
-        }
-
-        .user-profile-wrapper {
-            position: relative;
-            cursor: pointer;
-        }
-
-        .user-profile-box {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .user-avatar-img {
-            width: 36px;
-            height: 36px;
-            border-radius: 6px;
-            object-fit: cover;
-        }
-
-        .user-meta {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.2;
-        }
-
-        .user-meta .name {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #374151;
-        }
-
-        .user-meta .id {
-            font-size: 0.72rem;
-            color: #9ca3af;
-        }
-
-        .caret-icon {
-            width: 10px;
-            height: 10px;
-        }
-
-        /* Profile Dropdown Menu */
-        .profile-dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 45px;
-            background: #ffffff;
-            border-radius: 4px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            width: 180px;
-            z-index: 1000;
-            border: 1px solid #e2e8f0;
-        }
-
-        .profile-dropdown.active {
-            display: block;
-        }
-
-        .dropdown-header {
-            background-color: #538ee4;
-            color: #ffffff;
-            padding: 0.75rem 1rem;
-            font-size: 0.82rem;
-            font-weight: 700;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
-            text-transform: uppercase;
-        }
-
-        .dropdown-item {
-            display: block;
-            padding: 0.65rem 1rem;
-            color: #4a5568;
-            text-decoration: none;
-            font-size: 0.88rem;
-            border-bottom: 1px solid #edf2f7;
-        }
-
-        .dropdown-item:hover {
-            background-color: #f7fafc;
-        }
-
-        .main-dashboard-layout {
-            display: flex;
-            min-height: calc(100vh - 54px);
-            position: relative;
-        }
-
-        /* Sidebar & Mobile Drawer */
-        .sidebar-panel {
-            width: 240px;
-            background-color: #ffffff;
-            border-right: 1px solid #e5e7eb;
-            padding: 1rem 0;
-            transition: left 0.3s ease;
-        }
-
-        .sidebar-panel.mobile-close-btn {
-            padding: 0.5rem 1rem;
-            color: #2b569a;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: none;
-        }
-
-        .sidebar-section-label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #3b82f6;
-            padding: 0.75rem 1.25rem 0.25rem;
-            text-transform: uppercase;
-        }
-
-        .sidebar-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.25rem;
-            color: #4b5563;
-            text-decoration: none;
-            font-size: 0.88rem;
-        }
-
-        .sidebar-item:hover {
-            background-color: #f3f4f6;
-        }
-
-        .sidebar-item img {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-        }
-
-        .dashboard-content-area {
-            flex: 1;
-            padding: 1rem;
-            background-color: #f4f6f9;
-        }
-
-        /* Outer White Container Box matching original screenshot */
-        .content-card-box {
-            background-color: #ffffff;
-            border-radius: 6px;
-            padding: 1.2rem 1rem;
-            margin-bottom: 1.2rem;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-        }
-
-        .content-section-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #475569;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            letter-spacing: 0.3px;
-        }
-
-        .content-section-title img {
-            width: 34px;
-            height: 34px;
-            object-fit: contain;
-        }
-
-        .courses-grid-layout {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-        }
-
-        /* Course Item Box Exact Match to Original Portal Screenshot */
-        .course-card-item {
-            background-color: #eef2f5;
-            border-radius: 6px;
-            padding: 1.8rem 0.8rem;
-            text-align: center;
-            border: 1px solid #e1e8f0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 140px;
-        }
-
-        .course-card-item .code {
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.35rem;
-            line-height: 1.2;
-        }
-
-        .course-card-item .title {
-            font-size: 0.95rem;
-            color: #475569;
-            font-weight: 500;
-            line-height: 1.3;
-        }
-
-        .announcement-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 0.8rem;
-        }
-
-        .announcement-table th {
-            text-align: left;
-            font-size: 0.8rem;
-            color: #718096;
-            padding-bottom: 0.6rem;
-            border-bottom: 1px solid #e2e8f0;
-            font-weight: 700;
-        }
-
-        .announcement-table td {
-            padding: 0.8rem 0;
-            font-size: 0.82rem;
-            color: #2d3748;
-            border-bottom: 1px solid #edf2f7;
-            white-space: pre-line;
-            line-height: 1.35;
-        }
-
-        /* Mobile Responsive Matching Official Portal Screenshot */
         @media (max-width: 900px) {
-            .hero-section { display: none; }
-            .courses-grid-layout { grid-template-columns: 1fr; gap: 0.9rem; }
-            
-            .brand-logo-group { display: none; }
-            .user-meta { display: none; }
-            .caret-icon { display: none; }
-            .portal-title-text { display: none; }
-
-            .sidebar-panel {
-                position: fixed;
-                left: -280px;
-                top: 0;
-                height: 100vh;
-                z-index: 9999;
-                background: #ffffff;
-                box-shadow: 4px 0 20px rgba(0,0,0,0.2);
-                transition: left 0.3s ease;
-                width: 250px;
-            }
-
-            .sidebar-panel.mobile-open {
-                left: 0;
-            }
-
-            .sidebar-panel.mobile-close-btn {
-                display: block;
-            }
-
-            .dashboard-content-area {
-                padding: 0.6rem;
-            }
-
-            .content-card-box {
-                padding: 1rem 0.8rem;
-            }
-
-            .course-card-item {
-                padding: 2.2rem 1rem;
-                min-height: 150px;
-            }
-
-            .course-card-item .code {
-                font-size: 1.45rem;
-            }
-
-            .course-card-item .title {
-                font-size: 1rem;
-            }
+            .attendance-grid { grid-template-columns: 1fr; }
+            .brand-logo-group, .user-meta, .portal-title-text { display: none; }
+            .sidebar-panel { position: fixed; left: -280px; top: 0; height: 100vh; z-index: 9999; }
+            .sidebar-panel.mobile-open { left: 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- LOGIN PAGE VIEW -->
-    <div id="login-view">
-        <div class="login-container">
-            <div class="hero-section">
-                <h1 class="hero-title">"Educating people<br>for tomorrow"</h1>
-                <p class="hero-subtitle">Realize your fullest potential and<br>university's mission!</p>
+    <!-- NAVBAR -->
+    <nav class="top-navbar">
+        <div class="nav-left">
+            <button class="menu-toggle-btn" id="menuToggleBtn">&#9776;</button>
+            <div class="brand-logo-group">
+                <img src="logo.png" alt="GCU">
+                <span class="brand-logo-text">GCU</span>
             </div>
-
-            <div class="login-card">
-                <div class="logo-container">
-                    <img src="logo.png" alt="GCU Crest">
-                    <div class="brand-name">GCU LAHORE</div>
+            <span class="portal-title-text" id="portalSystemTitle">GCU L.M.S [Student Panel]</span>
+        </div>
+        <div class="nav-right">
+            <div class="bell-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            </div>
+            <div class="user-profile-box">
+                <img src="Screenshot_2026_1030_020002.png" class="user-avatar-img" alt="User">
+                <div class="user-meta">
+                    <span class="name">HASHIR IMRAN</span>
+                    <span class="id">0605-1-25</span>
                 </div>
-
-                <div class="form-title">Sign in to your account</div>
-
-                <form class="login-form" id="loginForm">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Username" required>
-                    </div>
-                    <div class="input-group">
-                        <input type="password" class="form-control" placeholder="Password" required>
-                    </div>
-                    <div class="form-actions">
-                        <a href="#" class="recover-link">Recover Password</a>
-                        <button type="submit" class="btn-login">login</button>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
+    </nav>
 
-    <!-- STUDENT DASHBOARD VIEW -->
-    <div id="dashboard-view">
-        <nav class="top-navbar">
-            <div class="nav-left">
-                <button class="menu-toggle-btn" id="menuToggleBtn">&#9776;</button>
-                <div class="brand-logo-group">
-                    <img src="logo.png" alt="GCU">
-                    <span class="brand-logo-text">GCU</span>
+    <div class="main-dashboard-layout">
+        <aside class="sidebar-panel" id="sidebarPanel">
+            <div class="sidebar-section-label">MENU</div>
+            <a href="#home" class="sidebar-item nav-link active" data-target="home-view"><img src="home.png" alt=""> <span>Home</span></a>
+            <a href="#timetable" class="sidebar-item nav-link" data-target="timetable-view"><img src="schedule.png" alt=""> <span>TimeTable</span></a>
+            <a href="#attendance" class="sidebar-item nav-link" data-target="attendance-view"><img src="attendance.png" alt=""> <span>Attendance</span></a>
+            <a href="#grades" class="sidebar-item nav-link" data-target="home-view"><img src="exam.png" alt=""> <span>Grades</span></a>
+            <a href="#progress" class="sidebar-item nav-link" data-target="home-view"><img src="market.png" alt=""> <span>Progress Report</span></a>
+            <a href="#challans" class="sidebar-item nav-link" data-target="home-view"><img src="fee.png" alt=""> <span>Challans</span></a>
+        </aside>
+
+        <main class="dashboard-content-area">
+            
+            <!-- HOME VIEW -->
+            <div id="home-view" class="page-view active">
+                <div class="content-card-box">
+                    <div class="content-section-title"><img src="Screenshot_2026_1030_020018.png" alt=""> COURSES</div>
+                    <div id="coursesGrid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;"></div>
                 </div>
-                <span class="portal-title-text" id="portalSystemTitle">GCU L.M.S [Student Panel]</span>
             </div>
-            <div class="nav-right">
-                <!-- Mobile Standard Bell SVG Vector -->
-                <div class="bell-box">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+
+            <!-- TIMETABLE VIEW -->
+            <div id="timetable-view" class="page-view">
+                <div class="content-card-box">
+                    <div class="content-section-title"><img src="schedule.png" alt=""> CLASS TIMETABLE</div>
+                    <div id="timetableContainer"></div>
                 </div>
-                
-                <div class="user-profile-wrapper" id="profileDropdownTrigger">
-                    <div class="user-profile-box">
-                        <img src="" class="user-avatar-img" id="userAvatar" alt="User">
-                        <img src="caret-down.png" class="caret-icon" alt="v">
-                        <div class="user-meta">
-                            <span class="name" id="studentNameText">HASHIR IMRAN</span>
-                            <span class="id" id="studentIdText">0605-1-25</span>
+            </div>
+
+            <!-- ATTENDANCE VIEW (EXACT OFFICIAL UI) -->
+            <div id="attendance-view" class="page-view">
+                <div class="content-card-box">
+                    <div class="content-section-title"><img src="attendance.png" alt=""> COURSES</div>
+                    
+                    <!-- Dynamic Dropdown Population Hook -->
+                    <select class="select-course-dropdown" id="courseSelect" onchange="fetchAttendanceFromDB(this.value)">
+                        <!-- Dynamic Options populated from Database -->
+                    </select>
+
+                    <div class="attendance-grid">
+                        <div class="chart-box">
+                            <h4>OVERALL ATTENDANCE REPORT WITH DETAIL</h4>
+                            <div style="width:190px; margin:0 auto;"><canvas id="pieChart"></canvas></div>
+                            <div class="stats-summary" id="statsSummary">
+                                <span>PRESENTS: <span id="valPresents">0</span></span>
+                                <span>ABSENTS: <span id="valAbsents">0</span></span>
+                                <span>LEAVES: <span id="valLeaves">0</span></span>
+                            </div>
+                            <div style="margin-top: 0.5rem; font-size:0.82rem; font-weight:700; color:#475569;">
+                                PERCENTAGE: <span id="valPercentage">0.00%</span>
+                            </div>
+                        </div>
+                        <div class="chart-box">
+                            <h4>MONTHLY REPORT</h4>
+                            <div style="height: 220px;"><canvas id="lineChart"></canvas></div>
                         </div>
                     </div>
-                    <!-- Profile Popup Menu -->
-                    <div class="profile-dropdown" id="profileDropdown">
-                        <div class="dropdown-header" id="dropdownStudentHeader">HASHIR IMRAN</div>
-                        <a href="#" class="dropdown-item">Profile</a>
-                        <a href="#" class="dropdown-item">Change Password</a>
-                        <a href="#" class="dropdown-item" onclick="location.reload()">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
 
-        <div class="main-dashboard-layout">
-            <aside class="sidebar-panel" id="sidebarPanel">
-                <div class="sidebar-panel mobile-close-btn" id="menuCloseBtn">&times;</div>
-                <div class="sidebar-section-label">MENU</div>
-                <div id="menuContainer"></div>
-            </aside>
-
-            <main class="dashboard-content-area">
-                <!-- Courses Outer White Card Container -->
-                <div class="content-card-box">
-                    <div class="content-section-title">
-                        <img id="coursesIconImg" src="" alt=""> COURSES
-                    </div>
-                    <div class="courses-grid-layout" id="coursesGrid"></div>
-                </div>
-
-                <!-- Announcements Outer White Card Container -->
-                <div class="content-card-box">
-                    <div class="content-section-title">
-                        <img id="announcementIconImg" src="" alt=""> ANNOUNCEMENTS
-                    </div>
-                    <table class="announcement-table">
+                    <div class="content-section-title" style="font-size:0.95rem; margin-top:1.5rem; color:#64748b;">DETAILS</div>
+                    <input type="text" class="search-input" id="tableSearch" placeholder="Search..." onkeyup="filterAttendanceTable()">
+                    
+                    <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Title</th>
+                                <th>Sr No</th>
                                 <th>Date</th>
-                                <th>Details</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody id="announcementTableBody"></tbody>
+                        <tbody id="attendanceTableBody">
+                            <!-- Dynamic Rows from Database -->
+                        </tbody>
                     </table>
                 </div>
-            </main>
-        </div>
+            </div>
+
+        </main>
     </div>
 
-    <!-- SCRIPT FOR INTEGRATION -->
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            document.getElementById('login-view').style.display = 'none';
-            document.getElementById('dashboard-view').style.display = 'block';
-            loadManifestData();
-        });
+        let pieChartInst = null;
+        let lineChartInst = null;
 
-        // Mobile Sidebar Toggle
-        document.getElementById('menuToggleBtn').addEventListener('click', function(e) {
-            e.stopPropagation();
-            document.getElementById('sidebarPanel').classList.add('mobile-open');
-        });
-
-        document.getElementById('menuCloseBtn').addEventListener('click', function() {
-            document.getElementById('sidebarPanel').classList.remove('mobile-open');
-        });
-
-        // Profile Dropdown Toggle
-        document.getElementById('profileDropdownTrigger').addEventListener('click', function(e) {
-            e.stopPropagation();
-            document.getElementById('profileDropdown').classList.toggle('active');
-        });
-
-        window.addEventListener('click', function() {
-            document.getElementById('profileDropdown').classList.remove('active');
-            document.getElementById('sidebarPanel').classList.remove('mobile-open');
-        });
-
-        async function loadManifestData() {
-            try {
-                const response = await fetch('manifest.json');
-                const data = await response.json();
-
-                // Student Meta
-                document.getElementById('studentNameText').innerText = data.student_info.name;
-                document.getElementById('dropdownStudentHeader').innerText = data.student_info.name;
-                document.getElementById('studentIdText').innerText = data.student_info.id;
-                document.getElementById('portalSystemTitle').innerText = `${data.student_info.system || 'GCU L.M.S'} [${data.student_info.panel}] ${data.student_info.version || ''}`;
+        // Navigation Switcher
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
                 
-                if(data.student_info.avatar) {
-                    document.getElementById('userAvatar').src = data.student_info.avatar;
-                }
+                this.classList.add('active');
+                const target = this.getAttribute('data-target');
+                document.getElementById(target).classList.add('active');
+            });
+        });
 
-                // Section Icons from JSON
-                if(data.section_icons) {
-                    document.getElementById('coursesIconImg').src = data.section_icons.courses;
-                    document.getElementById('announcementIconImg').src = data.section_icons.announcements;
-                }
+        // Mobile Menu Toggle
+        document.getElementById('menuToggleBtn').addEventListener('click', function() {
+            document.getElementById('sidebarPanel').classList.toggle('mobile-open');
+        });
 
-                // Render Sidebar Menu with PNGs
-                const menuContainer = document.getElementById('menuContainer');
-                menuContainer.innerHTML = '';
-                data.menu_items.forEach(item => {
-                    const menuItem = document.createElement('a');
-                    menuItem.className = 'sidebar-item';
-                    menuItem.href = item.link || '#';
-                    menuItem.innerHTML = `<img src="${item.icon}" alt=""> <span>${item.title}</span>`;
-                    menuContainer.appendChild(menuItem);
-                });
+        // Initialize UI Shell
+        async function initShell() {
+            try {
+                const res = await fetch('manifest.json');
+                const manifest = await res.json();
+                
+                // Load Static Courses & Timetable Structure
+                if(manifest.courses) renderCourses(manifest.courses);
+                if(manifest.timetable) renderTimetable(manifest.timetable);
 
-                // Render Courses
-                const coursesGrid = document.getElementById('coursesGrid');
-                coursesGrid.innerHTML = '';
-                data.courses.forEach(course => {
-                    const card = document.createElement('div');
-                    card.className = 'course-card-item';
-                    card.innerHTML = `
-                        <div class="code">${course.code}</div>
-                        <div class="title">${course.title}</div>
-                    `;
-                    coursesGrid.appendChild(card);
-                });
-
-                // Render Announcements
-                const tableBody = document.getElementById('announcementTableBody');
-                tableBody.innerHTML = '';
-                data.announcements.forEach(ann => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${ann.title}</td>
-                        <td>${ann.date}</td>
-                        <td>${ann.details}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-
-            } catch (error) {
-                console.error("Error loading manifest.json:", error);
+                // Populate Dropdown for Attendance Page (To be connected to API/DB)
+                populateCourseDropdown(manifest.courses || []);
+            } catch(e) {
+                console.log("Static manifest loaded.");
             }
         }
+
+        function renderCourses(courses) {
+            const grid = document.getElementById('coursesGrid');
+            grid.innerHTML = courses.map(c => `
+                <div style="background:#eef2f5; padding:1.5rem; text-align:center; border-radius:6px; border:1px solid #e1e8f0;">
+                    <div style="font-size:1.2rem; font-weight:700;">${c.code}</div>
+                    <div style="font-size:0.88rem; color:#64748b;">${c.title}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderTimetable(timetable) {
+            const container = document.getElementById('timetableContainer');
+            let html = '';
+            for (let day in timetable) {
+                html += `<div class="day-title">${day}</div>`;
+                html += `<table class="timetable-table">
+                    <thead>
+                        <tr><th>Time</th><th>Block</th><th>Room</th><th>Code</th><th>Subject</th><th>Teacher</th></tr>
+                    </thead><tbody>`;
+                timetable[day].forEach(item => {
+                    html += `<tr>
+                        <td>${item.time}</td>
+                        <td>${item.block}</td>
+                        <td>${item.room}</td>
+                        <td>${item.code}</td>
+                        <td>${item.subject}</td>
+                        <td>${item.teacher}</td>
+                    </tr>`;
+                });
+                html += `</tbody></table>`;
+            }
+            container.innerHTML = html;
+        }
+
+        function populateCourseDropdown(courses) {
+            const select = document.getElementById('courseSelect');
+            select.innerHTML = courses.map(c => `<option value="${c.code}">${c.code}-${c.title}</option>`).join('');
+            if(courses.length > 0) fetchAttendanceFromDB(courses[0].code);
+        }
+
+        /* ---------------- DATABASE INTEGRATION HOOK ---------------- */
+        function fetchAttendanceFromDB(courseCode) {
+            // Replace this function call with your Database API endpoint fetch
+            // Example: fetch(`/api/attendance?course=${courseCode}`).then(res => res.json()).then(data => renderAttendanceUI(data));
+
+            // Default Mock State for UI rendering check
+            const mockDbResponse = {
+                presents: 2,
+                absents: 37,
+                leaves: 0,
+                percentage: "5.13%",
+                monthlyData: { labels: ['Aug', 'Sep', 'Oct'], absents: [8, 16, 13], presents: [0, 1, 1] },
+                records: [
+                    { sr: 1, date: "29 Oct, 2026", status: "Absent" },
+                    { sr: 2, date: "28 Oct, 2026", status: "Present" },
+                    { sr: 3, date: "27 Oct, 2026", status: "Absent" },
+                    { sr: 4, date: "22 Oct, 2026", status: "Absent" },
+                    { sr: 5, date: "21 Oct, 2026", status: "Absent" }
+                ]
+            };
+
+            renderAttendanceUI(mockDbResponse);
+        }
+
+        function renderAttendanceUI(data) {
+            document.getElementById('valPresents').innerText = data.presents;
+            document.getElementById('valAbsents').innerText = data.absents;
+            document.getElementById('valLeaves').innerText = data.leaves;
+            document.getElementById('valPercentage').innerText = data.percentage;
+
+            const tbody = document.getElementById('attendanceTableBody');
+            tbody.innerHTML = data.records.map(r => `
+                <tr>
+                    <td>${r.sr}</td>
+                    <td>${r.date}</td>
+                    <td class="${r.status === 'Absent' ? 'status-absent' : 'status-present'}">${r.status}</td>
+                </tr>
+            `).join('');
+
+            renderPieChart(data.absents, data.presents, data.leaves);
+            renderLineChart(data.monthlyData);
+        }
+
+        function renderPieChart(absents, presents, leaves) {
+            if (pieChartInst) pieChartInst.destroy();
+            pieChartInst = new Chart(document.getElementById('pieChart'), {
+                type: 'pie',
+                data: {
+                    labels: ['Absents', 'Presents', 'Leaves'],
+                    datasets: [{
+                        data: [absents, presents, leaves],
+                        backgroundColor: ['#ff6384', '#36a2eb', '#ffce56']
+                    }]
+                },
+                options: { plugins: { legend: { display: false } } }
+            });
+        }
+
+        function renderLineChart(monthly) {
+            if (lineChartInst) lineChartInst.destroy();
+            lineChartInst = new Chart(document.getElementById('lineChart'), {
+                type: 'line',
+                data: {
+                    labels: monthly.labels,
+                    datasets: [
+                        { label: 'Absent', data: monthly.absents, borderColor: '#8b5cf6', fill: false, tension: 0.3 },
+                        { label: 'Present', data: monthly.presents, borderColor: '#0284c7', fill: false, tension: 0.3 }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function filterAttendanceTable() {
+            const val = document.getElementById('tableSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('#attendanceTableBody tr');
+            rows.forEach(r => {
+                r.style.display = r.innerText.toLowerCase().includes(val) ? '' : 'none';
+            });
+        }
+
+        initShell();
     </script>
 </body>
 </html>
