@@ -84,6 +84,11 @@
         .announcement-table th { text-align: left; font-size: 0.8rem; color: #718096; padding-bottom: 0.6rem; border-bottom: 1px solid #e2e8f0; font-weight: 700; }
         .announcement-table td { padding: 0.8rem 0; font-size: 0.82rem; color: #2d3748; border-bottom: 1px solid #edf2f7; white-space: pre-line; line-height: 1.35; }
 
+        /* TIMETABLE TABLE STYLING */
+        .timetable-table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 0.5rem; }
+        .timetable-table th { background: #343a40; color: #fff; text-align: left; padding: 0.6rem; font-size: 0.82rem; }
+        .timetable-table td { padding: 0.65rem; border-bottom: 1px solid #e2e8f0; font-size: 0.85rem; color: #334155; }
+
         /* ATTENDANCE PAGE SPECIFIC STYLING */
         .attendance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
         .chart-box { background: #fff; padding: 1rem; border-radius: 6px; border: 1px solid #e2e8f0; text-align: center; }
@@ -167,7 +172,7 @@
                         <img src="caret-down.png" class="caret-icon" alt="v">
                         <div class="user-meta">
                             <span class="name" id="studentNameText">ABDUL AHAD</span>
-                            <span class="id" id="studentIdText">0605-1-25</span>
+                            <span class="id" id="studentIdText">4237-1-25</span>
                         </div>
                     </div>
                     <!-- Profile Popup Menu -->
@@ -225,7 +230,48 @@
                 <div id="timetable-view" class="page-view">
                     <div class="content-card-box">
                         <div class="content-section-title"><img src="schedule.png" alt=""> CLASS TIMETABLE</div>
-                        <div id="timetableContainer"></div>
+                        <div id="timetableContainer">
+                            <table class="timetable-table">
+                                <thead>
+                                    <tr>
+                                        <th>Day</th>
+                                        <th>Time</th>
+                                        <th>Course Code</th>
+                                        <th>Subject Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><b>Monday</b></td><td>08:00 AM - 08:44 AM</td><td>PS-2001</td><td>Pak. Studies</td></tr>
+                                    <tr><td></td><td>09:30 AM - 10:14 AM</td><td>HP-2001</td><td>History of Pakistan</td></tr>
+                                    <tr><td></td><td>11:00 AM - 11:44 AM</td><td>CV-2002</td><td>Civics</td></tr>
+                                    <tr><td></td><td>11:45 AM - 12:29 PM</td><td>URDU-2001</td><td>Urdu</td></tr>
+                                    <tr><td></td><td>12:30 PM - 01:14 PM</td><td>PHED-2001</td><td>H & P Education</td></tr>
+                                    
+                                    <tr><td><b>Tuesday</b></td><td>08:00 AM - 08:44 AM</td><td>ENG-2001</td><td>English</td></tr>
+                                    <tr><td></td><td>09:30 AM - 10:14 AM</td><td>HP-2001</td><td>History of Pakistan</td></tr>
+                                    <tr><td></td><td>11:00 AM - 11:44 AM</td><td>CV-2002</td><td>Civics</td></tr>
+                                    <tr><td></td><td>11:45 AM - 12:29 PM</td><td>URDU-2001</td><td>Urdu</td></tr>
+                                    <tr><td></td><td>12:30 PM - 01:14 PM</td><td>PHED-2001</td><td>H & P Education</td></tr>
+
+                                    <tr><td><b>Wednesday</b></td><td>08:00 AM - 08:44 AM</td><td>ENG-2001</td><td>English</td></tr>
+                                    <tr><td></td><td>09:30 AM - 10:14 AM</td><td>HP-2001</td><td>History of Pakistan</td></tr>
+                                    <tr><td></td><td>11:45 AM - 12:29 PM</td><td>URDU-2001</td><td>Urdu</td></tr>
+                                    <tr><td></td><td>12:30 PM - 01:14 PM</td><td>PHED-2001</td><td>H & P Education</td></tr>
+
+                                    <tr><td><b>Thursday</b></td><td>08:00 AM - 08:44 AM</td><td>ENG-2001</td><td>English</td></tr>
+                                    <tr><td></td><td>09:30 AM - 10:14 AM</td><td>HP-2001</td><td>History of Pakistan</td></tr>
+                                    <tr><td></td><td>11:00 AM - 11:44 AM</td><td>CV-2002</td><td>Civics</td></tr>
+                                    <tr><td></td><td>11:45 AM - 12:29 PM</td><td>URDU-2001</td><td>Urdu</td></tr>
+                                    <tr><td></td><td>12:30 PM - 01:14 PM</td><td>PHED-2001</td><td>H & P Education</td></tr>
+
+                                    <tr><td><b>Friday</b></td><td>08:00 AM - 08:44 AM</td><td>ENG-2001</td><td>English</td></tr>
+                                    <tr><td></td><td>08:45 AM - 09:29 AM</td><td>HQ-1004</td><td>Translation of the Holy Quran (Comp.)</td></tr>
+                                    <tr><td></td><td>09:30 AM - 10:14 AM</td><td>PS-2001</td><td>Pak. Studies</td></tr>
+                                    <tr><td></td><td>11:00 AM - 11:44 AM</td><td>CV-2002</td><td>Civics</td></tr>
+                                    <tr><td></td><td>06:00 PM - 06:44 PM</td><td>PHED-2010 P</td><td>Phy. Edu. Pract.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -235,7 +281,7 @@
                         <div class="content-section-title"><img src="attendance.png" alt=""> COURSES</div>
                         
                         <select class="select-course-dropdown" id="courseSelect" onchange="fetchAttendanceFromDB(this.value)">
-                            <!-- Dynamic Database Hook Options -->
+                            <!-- Dynamic Course Options -->
                         </select>
 
                         <div class="attendance-grid">
@@ -287,15 +333,15 @@
         let pieChartInst = null;
         let lineChartInst = null;
 
-        // Custom Subjects provided by Abdul Ahad
+        // Abdul Ahad's Exact Subjects from Timetable Image
         const customCourses = [
-            { code: "HIST-101", title: "History of Pakistan" },
-            { code: "HPE-102", title: "Health and Physical Education" },
-            { code: "CIV-103", title: "Civics" },
-            { code: "ENG-104", title: "English" },
-            { code: "URD-105", title: "Urdu" },
-            { code: "PAK-106", title: "Pak Studies" },
-            { code: "ISL-107", title: "Translation of the Holy Quran" }
+            { code: "PS-2001", title: "Pak. Studies" },
+            { code: "HP-2001", title: "History of Pakistan" },
+            { code: "CV-2002", title: "Civics" },
+            { code: "URDU-2001", title: "Urdu" },
+            { code: "PHED-2001", title: "H & P Education" },
+            { code: "ENG-2001", title: "English" },
+            { code: "HQ-1004", title: "Translation of the Holy Quran (Comp.)" }
         ];
 
         document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -341,7 +387,6 @@
 
         async function loadPortalData() {
             try {
-                // Try fetching manifest.json for extra elements if available, but inject custom subjects & name securely
                 let avatarSrc = "Screenshot_2026_1030_020002.png";
                 let sectionIcons = { courses: "schedule.png", announcements: "exam.png" };
                 let announcements = [
@@ -388,7 +433,7 @@
                     tableBody.appendChild(row);
                 });
 
-                // Populate Attendance Dropdown with Custom Subjects
+                // Populate Attendance Dropdown
                 populateCourseDropdown(customCourses);
 
             } catch (error) {
@@ -402,17 +447,87 @@
             if(courses.length > 0) fetchAttendanceFromDB(courses[0].code);
         }
 
-        /* DATABASE HOOK FOR ATTENDANCE */
+        /* AUTOMATED TIMETABLE & RANDOM NATURAL ATTENDANCE (87% to 97%) */
         function fetchAttendanceFromDB(courseCode) {
-            const mockDbResponse = {
-                presents: 2, absents: 37, leaves: 0, percentage: "5.13%",
-                monthlyData: { labels: ['Oct', 'Sep', 'Aug'], absents: [13, 16, 8], presents: [1, 1, 0] },
-                records: [
-                    { sr: 1, date: "29 Oct, 2026", status: "Absent" },
-                    { sr: 2, date: "28 Oct, 2026", status: "Present" },
-                    { sr: 3, date: "27 Oct, 2026", status: "Absent" }
-                ]
+            let records = [];
+            let startDate = new Date('2026-08-17');
+            let endDate = new Date('2026-11-02'); // Today
+            let currentDate = new Date(startDate);
+            let sr = 1;
+
+            let presentsCount = 0;
+            let absentsCount = 0;
+
+            // Monthly breakdown counters for chart
+            let monthlyStats = {
+                "Aug": { present: 0, absent: 0 },
+                "Sep": { present: 0, absent: 0 },
+                "Oct": { present: 0, absent: 0 },
+                "Nov": { present: 0, absent: 0 }
             };
+
+            while (currentDate <= endDate) {
+                let dayOfWeek = currentDate.getDay(); // 1: Mon, 2: Tue, 3: Wed, 4: Thu, 5: Fri
+                let isClassDay = false;
+
+                // Timetable mapping as per uploaded image
+                if (dayOfWeek === 1) { // Monday
+                    if (["PS-2001", "HP-2001", "CV-2002", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
+                } else if (dayOfWeek === 2) { // Tuesday
+                    if (["ENG-2001", "HP-2001", "CV-2002", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
+                } else if (dayOfWeek === 3) { // Wednesday
+                    if (["ENG-2001", "HP-2001", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
+                } else if (dayOfWeek === 4) { // Thursday
+                    if (["ENG-2001", "HP-2001", "CV-2002", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
+                } else if (dayOfWeek === 5) { // Friday
+                    if (["ENG-2001", "HQ-1004", "PS-2001", "CV-2002", "PHED-2010 P"].includes(courseCode)) isClassDay = true;
+                }
+
+                if (isClassDay) {
+                    let monthName = currentDate.toLocaleString('en-US', { month: 'short' });
+                    
+                    // Generate natural random status with ~92% chance of Present (giving ~87-97% overall range)
+                    let randomVal = Math.random();
+                    let status = (randomVal < 0.92) ? "Present" : "Absent";
+
+                    if (status === "Present") {
+                        presentsCount++;
+                        if(monthlyStats[monthName]) monthlyStats[monthName].present++;
+                    } else {
+                        absentsCount++;
+                        if(monthlyStats[monthName]) monthlyStats[monthName].absent++;
+                    }
+
+                    let formattedDate = currentDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                    records.push({
+                        sr: 0, // temporary
+                        date: formattedDate,
+                        status: status
+                    });
+                }
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            // Reverse to show latest dates on top
+            records.reverse();
+            records.forEach((r, index) => { r.sr = index + 1; });
+
+            let totalClasses = presentsCount + absentsCount;
+            let percentage = totalClasses > 0 ? ((presentsCount / totalClasses) * 100).toFixed(2) + "%" : "0.00%";
+
+            const mockDbResponse = {
+                presents: presentsCount,
+                absents: absentsCount,
+                leaves: 0,
+                percentage: percentage,
+                monthlyData: { 
+                    labels: ['Nov', 'Oct', 'Sep', 'Aug'], 
+                    absents: [monthlyStats["Nov"].absent, monthlyStats["Oct"].absent, monthlyStats["Sep"].absent, monthlyStats["Aug"].absent], 
+                    presents: [monthlyStats["Nov"].present, monthlyStats["Oct"].present, monthlyStats["Sep"].present, monthlyStats["Aug"].present] 
+                },
+                records: records
+            };
+
             renderAttendanceUI(mockDbResponse);
         }
 
@@ -452,7 +567,7 @@
                     datasets: [
                         { label: 'Absent', data: data.monthlyData.absents, borderColor: '#8b5cf6', fill: false, tension: 0.3 },
                         { label: 'Present', data: data.monthlyData.presents, borderColor: '#0284c7', fill: false, tension: 0.3 },
-                        { label: 'Leaves', data: [0, 0, 0], borderColor: '#eab308', fill: false, tension: 0.3 }
+                        { label: 'Leaves', data: [0, 0, 0, 0], borderColor: '#eab308', fill: false, tension: 0.3 }
                     ]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
