@@ -84,22 +84,22 @@
         .announcement-table th { text-align: left; font-size: 0.8rem; color: #718096; padding-bottom: 0.6rem; border-bottom: 1px solid #e2e8f0; font-weight: 700; }
         .announcement-table td { padding: 0.8rem 0; font-size: 0.82rem; color: #2d3748; border-bottom: 1px solid #edf2f7; white-space: pre-line; line-height: 1.35; }
 
-        /* STUDENT HEADER MATCHING SCREENSHOT */
+        /* DESKTOP & RESPONSIVE STUDENT HEADER CARD */
         .student-profile-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1.2rem 2rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; }
         .student-info-group { display: flex; align-items: center; gap: 2rem; flex: 1; }
         .student-detail-col { text-align: center; flex: 1; }
         .student-detail-col .val { font-size: 0.95rem; font-weight: 600; color: #1e293b; margin-bottom: 0.15rem; }
         .student-detail-col .lbl { font-size: 0.75rem; color: #64748b; font-weight: 400; }
         .blue-sep { width: 2px; height: 32px; background-color: #0000FD; }
-        .view-profile-btn { color: #1e293b; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 6px; padding-left: 1rem; }
+        .view-profile-btn { color: #1e293b; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 6px; padding-left: 1rem; white-space: nowrap; }
 
         /* TIMELINE PERFECT ALIGNMENT MATCH */
-        .timeline-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1.8rem 2rem; margin-bottom: 1.5rem; }
+        .timeline-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1.8rem 2rem; margin-bottom: 1.5rem; overflow-x: auto; }
         .timeline-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
         .timeline-title { font-size: 1.2rem; font-weight: 700; color: #334155; }
         .btn-download-pdf { background-color: #dc2626; color: #fff; border: none; padding: 0.45rem 1.1rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; cursor: pointer; text-decoration: none; }
         
-        .timeline-container { position: relative; }
+        .timeline-container { position: relative; min-width: 600px; }
         
         /* Vertical line centered inside the dot column */
         .timeline-vertical-line { position: absolute; left: 247px; top: 12px; bottom: 12px; width: 2px; background-color: #800000; z-index: 1; }
@@ -151,9 +151,20 @@
             .sidebar-panel { position: fixed; left: -280px; top: 0; height: 100vh; z-index: 9999; background: #ffffff; width: 250px; }
             .sidebar-panel.mobile-open { left: 0; }
             .sidebar-panel.mobile-close-btn { display: block; }
-            .timeline-vertical-line { left: 182px; }
-            .day-col { width: 90px; }
-            .teacher-col { width: 120px; font-size: 0.75rem; }
+            
+            /* Mobile Student Card Fix matching screenshot 1000128155.jpg */
+            .student-profile-card { flex-direction: column; align-items: center; text-align: center; padding: 1rem; gap: 1rem; }
+            .student-info-group { flex-direction: column; width: 100%; gap: 1rem; }
+            .blue-sep { display: none; }
+            .student-detail-col { width: 100%; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem; }
+            .view-profile-btn { padding-left: 0; margin-top: 0.5rem; }
+            
+            /* Timeline adjustments for mobile */
+            .timeline-container { min-width: 100%; }
+            .timeline-vertical-line { left: 167px; }
+            .day-col { width: 80px; font-size: 0.85rem; }
+            .time-col { width: 80px; font-size: 0.78rem; }
+            .teacher-col { width: 110px; font-size: 0.72rem; }
         }
     </style>
 </head>
@@ -267,7 +278,7 @@
                     </div>
                 </div>
 
-                <!-- TIMETABLE VIEW (Centered Dots along Maroon Line) -->
+                <!-- TIMETABLE VIEW (Fully Responsive Mobile & Desktop Layout) -->
                 <div id="timetable-view" class="page-view">
                     
                     <!-- Student Header -->
