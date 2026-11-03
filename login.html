@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GCU Lahore - Login</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
+        body { font-family: 'Poppins', sans-serif; background-color: #d1b16c; min-height: 100vh; color: #1a1a1a; display: flex; align-items: center; justify-content: center; }
+
+        .login-container { width: 100%; max-width: 1280px; display: flex; align-items: center; justify-content: space-between; gap: 3rem; min-height: 80vh; padding: 1.5rem; }
+        .hero-section { flex: 1; max-width: 600px; padding-left: 2rem; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; line-height: 1.1; color: #4a0d0d; margin-bottom: 1.5rem; letter-spacing: -1px; }
+        .hero-subtitle { font-size: 1.25rem; color: #3b2c14; line-height: 1.5; }
+        .login-card { width: 440px; background: linear-gradient(180deg, #05014a 0%, #0c023d 55%, #47010a 100%); border-radius: 12px; padding: 3rem 2.5rem; box-shadow: 0 20px 40px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; color: #ffffff; margin: 0 auto; }
+        .logo-container { text-align: center; margin-bottom: 2.5rem; }
+        .logo-container img { width: 100px; height: auto; margin-bottom: 0.5rem; filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.4)); }
+        .brand-name { font-size: 1.1rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+        .form-title { width: 100%; font-size: 0.95rem; color: #e2e8f0; margin-bottom: 1.25rem; }
+        .login-form { width: 100%; }
+        .input-group { margin-bottom: 1rem; }
+        .form-control { width: 100%; padding: 0.85rem 1.1rem; background-color: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 8px; color: #ffffff; font-size: 0.95rem; outline: none; }
+        .form-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 2.5rem; }
+        .recover-link { color: #ffffff; text-decoration: none; font-size: 0.9rem; }
+        .btn-login { background-color: #4c4b92; color: #ffffff; border: none; padding: 0.65rem 1.8rem; border-radius: 6px; font-size: 0.95rem; font-weight: 500; cursor: pointer; }
+
+        @media (max-width: 900px) {
+            .hero-section { display: none; }
+            .login-card { width: 100%; max-width: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="hero-section">
+            <h1 class="hero-title">"Educating people<br>for tomorrow"</h1>
+            <p class="hero-subtitle">Realize your fullest potential and<br>university's mission!</p>
+        </div>
+
+        <div class="login-card">
+            <div class="logo-container">
+                <img src="logo.png" alt="GCU Crest">
+                <div class="brand-name">GCU LAHORE</div>
+            </div>
+
+            <div class="form-title">Sign in to your account</div>
+
+            <form class="login-form" id="loginForm">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Username" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" class="form-control" placeholder="Password" required>
+                </div>
+                <div class="form-actions">
+                    <a href="#" class="recover-link">Recover Password</a>
+                    <button type="submit" class="btn-login">login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Auth token/session set
+            localStorage.setItem('gcu_logged_in', 'true');
+            // Redirect to Student Portal
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>

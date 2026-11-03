@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GCU Lahore - LMS Student Portal</title>
+    
+    <!-- Fonts & Chart.js -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f6f9; min-height: 100vh; color: #1a1a1a; }
+
+        /* DASHBOARD PANEL VIEW */
+        .top-navbar { background-color: #ffffff; display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 1rem; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 100; height: 50px; width: 100%; }
+        .nav-left { display: flex; align-items: center; gap: 1rem; }
+        .brand-logo-group { display: flex; align-items: center; gap: 0.5rem; }
+        .brand-logo-group img { width: 28px; height: auto; }
+        .brand-logo-text { font-size: 1.3rem; font-weight: 700; color: #3b2c5d; }
+        .menu-toggle-btn { font-size: 1.35rem; color: #2b569a; cursor: pointer; background: none; border: none; line-height: 1; padding: 4px; }
+        .portal-title-text { color: #888888; font-size: 0.85rem; }
+        .nav-right { display: flex; align-items: center; gap: 0.8rem; }
+        .bell-box { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; cursor: pointer; }
+        .user-profile-wrapper { position: relative; cursor: pointer; }
+        .user-profile-box { display: flex; align-items: center; gap: 0.6rem; }
+        .user-avatar-img { width: 34px; height: 34px; border-radius: 6px; object-fit: cover; }
+        .user-meta { display: flex; flex-direction: column; line-height: 1.2; }
+        .user-meta .name { font-size: 0.85rem; font-weight: 600; color: #374151; }
+        .user-meta .id { font-size: 0.7rem; color: #9ca3af; }
+        .caret-icon { width: 9px; height: 9px; }
+
+        /* Profile Dropdown Menu */
+        .profile-dropdown { display: none; position: absolute; right: 0; top: 42px; background: #ffffff; border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); width: 180px; z-index: 1000; border: 1px solid #e2e8f0; }
+        .profile-dropdown.active { display: block; }
+        .dropdown-header { background-color: #538ee4; color: #ffffff; padding: 0.75rem 1rem; font-size: 0.82rem; font-weight: 700; border-top-left-radius: 4px; border-top-right-radius: 4px; text-transform: uppercase; }
+        .dropdown-item { display: block; padding: 0.65rem 1rem; color: #4a5568; text-decoration: none; font-size: 0.88rem; border-bottom: 1px solid #edf2f7; }
+        .dropdown-item:hover { background-color: #f7fafc; }
+
+        .main-dashboard-layout { display: flex; min-height: calc(100vh - 50px); position: relative; }
+        .sidebar-panel { width: 240px; background-color: #ffffff; border-right: 1px solid #e5e7eb; padding: 1rem 0; transition: left 0.3s ease; }
+        .sidebar-panel.mobile-close-btn { padding: 0.5rem 1rem; color: #2b569a; font-size: 1.2rem; cursor: pointer; display: none; }
+        .sidebar-section-label { font-size: 0.75rem; font-weight: 700; color: #3b82f6; padding: 0.75rem 1.25rem 0.25rem; text-transform: uppercase; }
+        .sidebar-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; color: #4b5563; text-decoration: none; font-size: 0.88rem; }
+        .sidebar-item:hover, .sidebar-item.active { background-color: #f3f4f6; color: #1e3a8a; font-weight: 600; }
+        .sidebar-item img { width: 20px; height: 20px; object-fit: contain; }
+
+        .dashboard-content-area { flex: 1; padding: 1rem; background-color: #f4f6f9; }
+        .page-view { display: none; }
+        .page-view.active { display: block; }
+
+        .content-card-box { background-color: #ffffff; border-radius: 6px; padding: 1.2rem 1rem; margin-bottom: 1.2rem; border: 1px solid #e2e8f0; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+        .content-section-title { font-size: 1.2rem; font-weight: 700; color: #475569; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; letter-spacing: 0.3px; }
+        .content-section-title img { width: 30px; height: 30px; object-fit: contain; }
+
+        .courses-grid-layout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .course-card-item { background-color: #eef2f5; border-radius: 6px; padding: 1.5rem 0.8rem; text-align: center; border: 1px solid #e1e8f0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 130px; }
+        .course-card-item .code { font-size: 1.25rem; font-weight: 700; color: #1e293b; margin-bottom: 0.3rem; line-height: 1.2; }
+        .course-card-item .title { font-size: 0.9rem; color: #475569; font-weight: 500; line-height: 1.3; }
+
+        .announcement-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; }
+        .announcement-table th { text-align: left; font-size: 0.8rem; color: #718096; padding-bottom: 0.6rem; border-bottom: 1px solid #e2e8f0; font-weight: 700; }
+        .announcement-table td { padding: 0.8rem 0; font-size: 0.82rem; color: #2d3748; border-bottom: 1px solid #edf2f7; white-space: pre-line; line-height: 1.35; }
+
+        /* STUDENT HEADER CARD WITH EMPTY PLACEHOLDER */
+        .student-profile-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 1.2rem; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .student-banner { height: 95px; background: linear-gradient(135deg, #2b3a67, #4a1515); position: relative; }
+        .student-avatar-placeholder { width: 72px; height: 72px; border-radius: 50%; border: 4px solid #fff; margin: -36px auto 0 auto; display: block; background: #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        
+        .student-info-group { display: flex; align-items: center; justify-content: space-around; padding: 0.8rem 1rem; border-bottom: 1px solid #e2e8f0; }
+        .student-detail-col { text-align: center; flex: 1; }
+        .student-detail-col .val { font-size: 0.9rem; font-weight: 600; color: #1e293b; margin-bottom: 0.1rem; }
+        .student-detail-col .lbl { font-size: 0.7rem; color: #64748b; font-weight: 400; text-transform: uppercase; }
+        .blue-sep { width: 2px; height: 28px; background-color: #0000FD; }
+        
+        .student-card-footer { padding: 0.6rem 1rem; text-align: center; background: #fff; }
+        .view-profile-btn { color: #1e293b; font-size: 0.8rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+
+        /* TIMELINE PERFECT ALIGNMENT MATCH */
+        .timeline-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1.2rem 1rem; margin-bottom: 1.2rem; overflow-x: auto; }
+        .timeline-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .timeline-title { font-size: 1.1rem; font-weight: 700; color: #334155; }
+        .btn-download-pdf { background-color: #dc2626; color: #fff; border: none; padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; }
+        
+        .timeline-container { position: relative; min-width: 550px; }
+        .timeline-vertical-line { position: absolute; left: 232px; top: 10px; bottom: 10px; width: 2px; background-color: #800000; z-index: 1; }
+
+        .timeline-row-item { display: flex; align-items: center; padding: 0.4rem 0; position: relative; min-height: 35px; }
+        .day-col { width: 130px; font-weight: 700; color: #334155; font-size: 0.9rem; }
+        .time-col { width: 90px; font-size: 0.82rem; color: #475569; font-weight: 500; }
+        .dot-col { width: 25px; display: flex; justify-content: center; align-items: center; z-index: 2; position: relative; }
+        
+        .dot-main { width: 11px; height: 11px; border-radius: 50%; box-shadow: 0 0 0 2px #fff; z-index: 2; }
+        .dot-sub { width: 6px; height: 6px; border-radius: 50%; background-color: #cbd5e1; box-shadow: 0 0 0 2px #fff; z-index: 2; }
+
+        .detail-col { flex: 1; padding-left: 1.2rem; }
+        .subject-title { font-size: 0.88rem; font-weight: 600; color: #1e293b; }
+        .room-text { font-size: 0.8rem; color: #64748b; }
+        .teacher-col { font-size: 0.8rem; font-weight: 600; color: #475569; text-align: right; width: 200px; text-transform: uppercase; }
+
+        /* ATTENDANCE EXACT PORTAL STYLING */
+        .attendance-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 1.2rem; }
+        .attendance-card-header { font-size: 1.05rem; font-weight: 700; color: #475569; padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 0.6rem; letter-spacing: 0.3px; }
+        .attendance-card-header img { width: 30px; height: 30px; object-fit: contain; }
+        
+        .sub-section-header { font-size: 0.82rem; font-weight: 700; color: #475569; padding: 0.9rem 1rem 0.5rem 1rem; border-bottom: 1px solid #e2e8f0; text-transform: uppercase; background: #fff; }
+        .attendance-section-block { padding: 1rem; border-bottom: 1px solid #e2e8f0; text-align: center; background: #fff; }
+        
+        .select-course-dropdown { width: 100%; max-width: 100%; padding: 0.6rem 0.9rem; border: 1px solid #cbd5e1; border-radius: 4px; margin-bottom: 1rem; font-size: 0.88rem; color: #334155; background: #fff; display: block; }
+        
+        .chart-legend-row { display: flex; justify-content: center; gap: 12px; margin-bottom: 0.8rem; font-size: 0.72rem; font-weight: 700; color: #64748b; }
+        .chart-legend-item { display: flex; align-items: center; gap: 4px; }
+        
+        .stats-summary-box { padding: 0.9rem 1rem; text-align: left; font-size: 0.82rem; font-weight: 700; color: #334155; border-bottom: 1px solid #e2e8f0; background: #fff; line-height: 1.6; }
+        
+        .search-input { width: 100%; padding: 0.5rem 0.8rem; border: 1px solid #cbd5e1; border-radius: 4px; margin-bottom: 1rem; font-size: 0.82rem; }
+        .status-absent { color: #dc2626; font-weight: 600; }
+        .status-present { color: #16a34a; font-weight: 600; }
+        
+        .data-table { width: 100%; border-collapse: collapse; background: #fff; }
+        .data-table th { background: #343a40; color: #fff; text-align: left; padding: 0.55rem; font-size: 0.8rem; }
+        .data-table td { padding: 0.6rem; border-bottom: 1px solid #e2e8f0; font-size: 0.82rem; }
+
+        @media (max-width: 900px) {
+            .courses-grid-layout { grid-template-columns: 1fr; }
+            .brand-logo-group { display: none; }
+            .user-meta { display: none; }
+            .caret-icon { display: none; }
+            .portal-title-text { display: none; }
+            .sidebar-panel { position: fixed; left: -280px; top: 0; height: 100vh; z-index: 9999; background: #ffffff; width: 240px; }
+            .sidebar-panel.mobile-open { left: 0; }
+            .sidebar-panel.mobile-close-btn { display: block; }
+            
+            .student-info-group { flex-direction: column; gap: 0.8rem; padding: 0.8rem; }
+            .blue-sep { display: none; }
+            .student-detail-col { width: 100%; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem; }
+            
+            .timeline-container { min-width: 100%; }
+            .timeline-vertical-line { left: 155px; }
+            .day-col { width: 75px; font-size: 0.82rem; }
+            .time-col { width: 75px; font-size: 0.75rem; }
+            .teacher-col { width: 105px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="nav-left">
+            <button class="menu-toggle-btn" id="menuToggleBtn">&#9776;</button>
+            <div class="brand-logo-group">
+                <img src="logo.png" alt="GCU">
+                <span class="brand-logo-text">GCU</span>
+            </div>
+            <span class="portal-title-text" id="portalSystemTitle">GCU L.M.S [Student Panel]</span>
+        </div>
+        <div class="nav-right">
+            <div class="bell-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            </div>
+            
+            <div class="user-profile-wrapper" id="profileDropdownTrigger">
+                <div class="user-profile-box">
+                    <img src="Screenshot_2026_1030_020002.png" class="user-avatar-img" id="userAvatar" alt="User">
+                    <img src="caret-down.png" class="caret-icon" alt="v">
+                    <div class="user-meta">
+                        <span class="name" id="studentNameText">HASHIR IMRAN</span>
+                        <span class="id" id="studentIdText">0605-1-25</span>
+                    </div>
+                </div>
+                <!-- Profile Popup Menu -->
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="dropdown-header" id="dropdownStudentHeader">HASHIR IMRAN</div>
+                    <a href="#" class="dropdown-item">Profile</a>
+                    <a href="#" class="dropdown-item">Change Password</a>
+                    <a href="#" class="dropdown-item" id="logoutBtn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-dashboard-layout">
+        <aside class="sidebar-panel" id="sidebarPanel">
+            <div class="sidebar-panel mobile-close-btn" id="menuCloseBtn">&times;</div>
+            <div class="sidebar-section-label">MENU</div>
+            <a href="#home" class="sidebar-item nav-link active" data-target="home-view"><img src="home.png" alt=""> <span>Home</span></a>
+            <a href="#timetable" class="sidebar-item nav-link" data-target="timetable-view"><img src="schedule.png" alt=""> <span>TimeTable</span></a>
+            <a href="#attendance" class="sidebar-item nav-link" data-target="attendance-view"><img src="attendance.png" alt=""> <span>Attendance</span></a>
+            <a href="#grades" class="sidebar-item nav-link" data-target="home-view"><img src="exam.png" alt=""> <span>Grades</span></a>
+            <a href="#progress" class="sidebar-item nav-link" data-target="home-view"><img src="market.png" alt=""> <span>Progress Report</span></a>
+            <a href="#challans" class="sidebar-item nav-link" data-target="home-view"><img src="fee.png" alt=""> <span>Challans</span></a>
+        </aside>
+
+        <main class="dashboard-content-area">
+            
+            <!-- HOME VIEW -->
+            <div id="home-view" class="page-view active">
+                <div class="content-card-box">
+                    <div class="content-section-title">
+                        <img id="coursesIconImg" src="" alt=""> COURSES
+                    </div>
+                    <div class="courses-grid-layout" id="coursesGrid"></div>
+                </div>
+
+                <div class="content-card-box">
+                    <div class="content-section-title" style="margin-bottom: 0.5rem;">
+                        <img id="announcementIconImg" src="" alt=""> ANNOUNCEMENTS
+                    </div>
+                    <table class="announcement-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="announcementTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TIMETABLE VIEW -->
+            <div id="timetable-view" class="page-view">
+                
+                <!-- Student Header Card -->
+                <div class="student-profile-card">
+                    <div class="student-banner"></div>
+                    <div class="student-avatar-placeholder"></div>
+                    <div class="student-info-group">
+                        <div class="student-detail-col">
+                            <div class="val">Hashir Imran</div>
+                            <div class="lbl">Name</div>
+                        </div>
+                        <div class="blue-sep"></div>
+                        <div class="student-detail-col">
+                            <div class="val">0605-1-25</div>
+                            <div class="lbl">Roll #</div>
+                        </div>
+                        <div class="blue-sep"></div>
+                        <div class="student-detail-col">
+                            <div class="val">INTERMEDIATE</div>
+                            <div class="lbl">Major</div>
+                        </div>
+                        <div class="blue-sep"></div>
+                        <div class="student-detail-col">
+                            <div class="val">2</div>
+                            <div class="lbl">Semester</div>
+                        </div>
+                    </div>
+                    <div class="student-card-footer">
+                        <a href="#" class="view-profile-btn">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            View Profile
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Timeline Section -->
+                <div class="timeline-card">
+                    <div class="timeline-card-header">
+                        <div class="timeline-title">Class TimeLine</div>
+                        <button class="btn-download-pdf">Download Pdf</button>
+                    </div>
+
+                    <div class="timeline-container">
+                        <div class="timeline-vertical-line"></div>
+
+                        <!-- MONDAY -->
+                        <div class="timeline-row-item">
+                            <div class="day-col">Monday</div>
+                            <div class="time-col">8:00 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #e11d48;"></div></div>
+                            <div class="detail-col"><div class="subject-title">English</div></div>
+                            <div class="teacher-col">ISBAH USMAN</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">8:44 AM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">NB-301</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">8:45 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #2563eb;"></div></div>
+                            <div class="detail-col"><div class="subject-title">Chemistry</div></div>
+                            <div class="teacher-col">Syeda Kandeel Zahra</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">9:29 AM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">NB-301</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">9:30 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #16a34a;"></div></div>
+                            <div class="detail-col"><div class="subject-title">Mathematics</div></div>
+                            <div class="teacher-col">KHWAJA AFTAB AHMAD</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">10:14 AM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">NB-301</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">11:00 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #d97706;"></div></div>
+                            <div class="detail-col"><div class="subject-title">Urdu</div></div>
+                            <div class="teacher-col">Darakhshan Zeeshan</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">11:44 AM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">NB-301</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">11:45 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #7c3aed;"></div></div>
+                            <div class="detail-col"><div class="subject-title">Physics</div></div>
+                            <div class="teacher-col">Javaid Iqbal Chohan</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">12:29 PM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">NB-301</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                        <!-- TUESDAY -->
+                        <div class="timeline-row-item" style="margin-top: 1rem;">
+                            <div class="day-col">Tuesday</div>
+                            <div class="time-col">8:00 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #e11d48;"></div></div>
+                            <div class="detail-col"><div class="subject-title">English</div></div>
+                            <div class="teacher-col">ISBAH USMAN</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">8:44 AM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">NB-301</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">8:45 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #2563eb;"></div></div>
+                            <div class="detail-col"><div class="subject-title">Chemistry Prac</div></div>
+                            <div class="teacher-col">Syeda Kandeel Zahra</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">9:29 AM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">F.Sc. Lab-IV</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                        <!-- WEDNESDAY -->
+                        <div class="timeline-row-item" style="margin-top: 1rem;">
+                            <div class="day-col">Wednesday</div>
+                            <div class="time-col">8:00 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #e11d48;"></div></div>
+                            <div class="detail-col"><div class="subject-title">English</div></div>
+                            <div class="teacher-col">ISBAH USMAN</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">8:44 AM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">NB-301</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">9:30 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #059669;"></div></div>
+                            <div class="detail-col"><div class="subject-title">Pak. Studies</div></div>
+                            <div class="teacher-col">DR. SAEED AHMED BUTT</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">11:44 AM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">NB-301</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                        <!-- THURSDAY -->
+                        <div class="timeline-row-item" style="margin-top: 1rem;">
+                            <div class="day-col">Thursday</div>
+                            <div class="time-col">8:00 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #e11d48;"></div></div>
+                            <div class="detail-col"><div class="subject-title">English</div></div>
+                            <div class="teacher-col">ISBAH USMAN</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">8:44 AM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">NB-301</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">9:30 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #16a34a;"></div></div>
+                            <div class="detail-col"><div class="subject-title">Mathematics</div></div>
+                            <div class="teacher-col">KHWAJA AFTAB AHMAD</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">10:14 AM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">NB-301</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                        <!-- FRIDAY -->
+                        <div class="timeline-row-item" style="margin-top: 1rem;">
+                            <div class="day-col">Friday</div>
+                            <div class="time-col">8:00 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #0d9488;"></div></div>
+                            <div class="detail-col"><div class="subject-title">Translation of the Holy Quran (Comp.)</div></div>
+                            <div class="teacher-col">MUHAMMAD RAFFAY</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">8:44 AM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">NB-301</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">10:15 AM</div>
+                            <div class="dot-col"><div class="dot-main" style="background-color: #0284c7;"></div></div>
+                            <div class="detail-col"><div class="subject-title">Physics Prac</div></div>
+                            <div class="teacher-col">Javaid Iqbal Chohan</div>
+                        </div>
+                        <div class="timeline-row-item">
+                            <div class="day-col"></div>
+                            <div class="time-col">10:59 AM</div>
+                            <div class="dot-col"><div class="dot-sub"></div></div>
+                            <div class="detail-col"><div class="room-text">F.Sc Lab-1</div></div>
+                            <div class="teacher-col"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ATTENDANCE VIEW -->
+            <div id="attendance-view" class="page-view">
+                <div class="attendance-card">
+                    <div class="attendance-card-header">
+                        <img src="attendance.png" alt=""> COURSES
+                    </div>
+
+                    <div class="sub-section-header">OVERALL ATTENDANCE REPORT WITH DETAIL</div>
+                    
+                    <div class="attendance-section-block">
+                        <select class="select-course-dropdown" id="courseSelect" onchange="fetchAttendanceFromDB(this.value)">
+                            <!-- Dynamic Course Options -->
+                        </select>
+
+                        <div class="chart-legend-row">
+                            <span class="chart-legend-item"><span style="width: 12px; height: 12px; background-color: #FFA1B5; display: inline-block;"></span> ABSENTS</span>
+                            <span class="chart-legend-item"><span style="width: 12px; height: 12px; background-color: #86C7F3; display: inline-block;"></span> PRESENTS</span>
+                            <span class="chart-legend-item"><span style="width: 12px; height: 12px; background-color: #ffce56; display: inline-block;"></span> LEAVES</span>
+                        </div>
+
+                        <div style="width:130px; margin:0 auto;"><canvas id="pieChart"></canvas></div>
+                    </div>
+
+                    <div class="stats-summary-box">
+                        <div>PRESENTS: <span id="valPresents">0</span></div>
+                        <div>ABSENTS: <span id="valAbsents">0</span></div>
+                        <div>LEAVES: <span id="valLeaves">0</span></div>
+                        <div style="margin-top: 0.2rem;">PERCENTAGE: <span id="valPercentage">0.00%</span></div>
+                    </div>
+
+                    <div class="sub-section-header">MONTHLY REPORT</div>
+                    
+                    <div class="attendance-section-block" style="border-bottom: none;">
+                        <div class="chart-legend-row" style="margin-bottom: 8px;">
+                            <span class="chart-legend-item"><span style="width: 12px; height: 12px; border: 2px solid #8b5cf6; display: inline-block;"></span> Absent</span>
+                            <span class="chart-legend-item"><span style="width: 12px; height: 12px; background-color: #0284c7; display: inline-block;"></span> Present</span>
+                            <span class="chart-legend-item"><span style="width: 12px; height: 12px; background-color: #eab308; display: inline-block;"></span> Leaves</span>
+                        </div>
+                        <div style="height: 110px;"><canvas id="lineChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="content-card-box">
+                    <div class="content-section-title" style="font-size:0.95rem; margin-bottom:1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; color:#64748b;">DETAILS</div>
+                    <input type="text" class="search-input" id="tableSearch" placeholder="Search..." onkeyup="filterAttendanceTable()">
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Sr No</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- SCRIPT FOR INTEGRATION -->
+    <script>
+        // Authentication Guard: Redirect if not logged in
+        if (localStorage.getItem('gcu_logged_in') !== 'true') {
+            window.location.href = 'login.html';
+        }
+
+        let pieChartInst = null;
+        let lineChartInst = null;
+
+        const customCourses = [
+            { code: "PS-2001", title: "Pak. Studies" },
+            { code: "HP-2001", title: "History of Pakistan" },
+            { code: "CV-2002", title: "Civics" },
+            { code: "URDU-2001", title: "Urdu" },
+            { code: "PHED-2001", title: "H & P Education" },
+            { code: "ENG-2001", title: "English" },
+            { code: "HQ-1004", title: "Translation of the Holy Quran (Comp.)" }
+        ];
+
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+                
+                this.classList.add('active');
+                const target = this.getAttribute('data-target');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+
+        document.getElementById('menuToggleBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('sidebarPanel').classList.add('mobile-open');
+        });
+
+        document.getElementById('menuCloseBtn').addEventListener('click', function() {
+            document.getElementById('sidebarPanel').classList.remove('mobile-open');
+        });
+
+        document.getElementById('profileDropdownTrigger').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('profileDropdown').classList.toggle('active');
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('gcu_logged_in');
+            window.location.href = 'login.html';
+        });
+
+        window.addEventListener('click', function() {
+            document.getElementById('profileDropdown').classList.remove('active');
+            document.getElementById('sidebarPanel').classList.remove('mobile-open');
+        });
+
+        async function loadPortalData() {
+            try {
+                let avatarSrc = "Screenshot_2026_1030_020002.png";
+                let sectionIcons = { courses: "schedule.png", announcements: "exam.png" };
+                let announcements = [
+                    { title: "Welcome to New Semester", date: "01 Nov, 2026", details: "Classes have officially started for Hashir Imran." }
+                ];
+
+                try {
+                    const response = await fetch('manifest.json');
+                    const data = await response.json();
+                    if(data.student_info && data.student_info.avatar) avatarSrc = data.student_info.avatar;
+                    if(data.section_icons) sectionIcons = data.section_icons;
+                    if(data.announcements) announcements = data.announcements;
+                } catch(err) {
+                    console.log("Using internal fallback data.");
+                }
+
+                document.getElementById('userAvatar').src = avatarSrc;
+                document.getElementById('coursesIconImg').src = sectionIcons.courses;
+                document.getElementById('announcementIconImg').src = sectionIcons.announcements;
+
+                const coursesGrid = document.getElementById('coursesGrid');
+                coursesGrid.innerHTML = '';
+                customCourses.forEach(course => {
+                    const card = document.createElement('div');
+                    card.className = 'course-card-item';
+                    card.innerHTML = `
+                        <div class="code">${course.code}</div>
+                        <div class="title">${course.title}</div>
+                    `;
+                    coursesGrid.appendChild(card);
+                });
+
+                const tableBody = document.getElementById('announcementTableBody');
+                tableBody.innerHTML = '';
+                announcements.forEach(ann => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${ann.title}</td>
+                        <td>${ann.date}</td>
+                        <td>${ann.details}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+                populateCourseDropdown(customCourses);
+
+            } catch (error) {
+                console.error("Error loading portal data:", error);
+            }
+        }
+
+        function populateCourseDropdown(courses) {
+            const select = document.getElementById('courseSelect');
+            select.innerHTML = courses.map(c => `<option value="${c.code}">${c.code}-${c.title}</option>`).join('');
+            if(courses.length > 0) fetchAttendanceFromDB(courses[0].code);
+        }
+
+        function fetchAttendanceFromDB(courseCode) {
+            let records = [];
+            let startDate = new Date('2026-08-17');
+            let endDate = new Date('2026-11-03');
+            let currentDate = new Date(startDate);
+            let sr = 1;
+
+            let monthlyStats = {
+                "Aug": { present: 0, absent: 0 },
+                "Sep": { present: 0, absent: 0 },
+                "Oct": { present: 0, absent: 0 },
+                "Nov": { present: 0, absent: 0 }
+            };
+
+            let charSum = 0;
+            for(let i=0; i<courseCode.length; i++) charSum += courseCode.charCodeAt(i);
+            let targetPercentage = 0.87 + ((charSum % 11) * 0.01);
+
+            while (currentDate <= endDate) {
+                let dayOfWeek = currentDate.getDay();
+                let isClassDay = false;
+
+                if (dayOfWeek === 1) {
+                    if (["PS-2001", "HP-2001", "CV-2002", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
+                } else if (dayOfWeek === 2) {
+                    if (["ENG-2001", "HP-2001", "CV-2002", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
+                } else if (dayOfWeek === 3) {
+                    if (["ENG-2001", "HP-2001", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
+                } else if (dayOfWeek === 4) {
+                    if (["ENG-2001", "HP-2001", "CV-2002", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
+                } else if (dayOfWeek === 5) {
+                    if (["ENG-2001", "HQ-1004", "PS-2001", "CV-2002", "PHED-2010 P"].includes(courseCode)) isClassDay = true;
+                }
+
+                if (isClassDay) {
+                    let monthName = currentDate.toLocaleString('en-US', { month: 'short' });
+                    let randomVal = Math.random();
+                    let status = (randomVal < targetPercentage) ? "Present" : "Absent";
+
+                    if (status === "Present") {
+                        if(monthlyStats[monthName]) monthlyStats[monthName].present++;
+                    } else {
+                        if(monthlyStats[monthName]) monthlyStats[monthName].absent++;
+                    }
+
+                    let formattedDate = currentDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                    records.push({
+                        sr: 0,
+                        date: formattedDate,
+                        status: status
+                    });
+                }
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            records.reverse();
+            records.forEach((r, index) => { r.sr = index + 1; });
+
+            let totalPresents = 0, totalAbsents = 0;
+            Object.keys(monthlyStats).forEach(m => {
+                totalPresents += monthlyStats[m].present;
+                totalAbsents += monthlyStats[m].absent;
+            });
+
+            let totalClasses = totalPresents + totalAbsents;
+            let percentage = totalClasses > 0 ? ((totalPresents / totalClasses) * 100).toFixed(2) + "%" : "0.00%";
+
+            const mockDbResponse = {
+                presents: totalPresents,
+                absents: totalAbsents,
+                leaves: 0,
+                percentage: percentage,
+                monthlyData: { 
+                    labels: ['Oct', 'Sep', 'Aug'], 
+                    absents: [monthlyStats["Oct"].absent, monthlyStats["Sep"].absent, monthlyStats["Aug"].absent], 
+                    presents: [monthlyStats["Oct"].present, monthlyStats["Sep"].present, monthlyStats["Aug"].present] 
+                },
+                records: records
+            };
+
+            renderAttendanceUI(mockDbResponse);
+        }
+
+        function renderAttendanceUI(data) {
+            document.getElementById('valPresents').innerText = data.presents;
+            document.getElementById('valAbsents').innerText = data.absents;
+            document.getElementById('valLeaves').innerText = data.leaves;
+            document.getElementById('valPercentage').innerText = data.percentage;
+
+            const tbody = document.getElementById('attendanceTableBody');
+            tbody.innerHTML = data.records.map(r => `
+                <tr>
+                    <td>${r.sr}</td>
+                    <td>${r.date}</td>
+                    <td class="${r.status === 'Absent' ? 'status-absent' : 'status-present'}">${r.status}</td>
+                </tr>
+            `).join('');
+
+            if (pieChartInst) pieChartInst.destroy();
+            pieChartInst = new Chart(document.getElementById('pieChart'), {
+                type: 'pie',
+                data: {
+                    labels: ['Absents', 'Presents', 'Leaves'],
+                    datasets: [{ 
+                        data: [data.absents, data.presents, data.leaves], 
+                        backgroundColor: ['#FFA1B5', '#86C7F3', '#ffce56'] 
+                    }]
+                },
+                options: { plugins: { legend: { display: false } } }
+            });
+
+            if (lineChartInst) lineChartInst.destroy();
+            lineChartInst = new Chart(document.getElementById('lineChart'), {
+                type: 'line',
+                data: {
+                    labels: data.monthlyData.labels,
+                    datasets: [
+                        { label: 'Absent', data: data.monthlyData.absents, borderColor: '#8b5cf6', fill: false, tension: 0.3 },
+                        { label: 'Present', data: data.monthlyData.presents, borderColor: '#0284c7', fill: false, tension: 0.3 },
+                        { label: 'Leaves', data: [0, 0, 0], borderColor: '#eab308', fill: false, tension: 0.3 }
+                    ]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function filterAttendanceTable() {
+            const val = document.getElementById('tableSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('#attendanceTableBody tr');
+            rows.forEach(r => {
+                r.style.display = r.innerText.toLowerCase().includes(val) ? '' : 'none';
+            });
+        }
+
+        // Initialize portal on load
+        loadPortalData();
+    </script>
+</body>
+</html>
