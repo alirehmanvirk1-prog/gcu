@@ -67,7 +67,7 @@
         .sidebar-item:hover, .sidebar-item.active { background-color: #f3f4f6; color: #1e3a8a; font-weight: 600; }
         .sidebar-item img { width: 20px; height: 20px; object-fit: contain; }
 
-        .dashboard-content-area { flex: 1; padding: 1.2rem; background-color: #f4f6f9; }
+        .dashboard-content-area { flex: 1; padding: 1.5rem; background-color: #f4f6f9; }
         .page-view { display: none; }
         .page-view.active { display: block; }
 
@@ -84,31 +84,39 @@
         .announcement-table th { text-align: left; font-size: 0.8rem; color: #718096; padding-bottom: 0.6rem; border-bottom: 1px solid #e2e8f0; font-weight: 700; }
         .announcement-table td { padding: 0.8rem 0; font-size: 0.82rem; color: #2d3748; border-bottom: 1px solid #edf2f7; white-space: pre-line; line-height: 1.35; }
 
-        /* TIMETABLE SCREENSHOT MATCHING LAYOUT */
-        .student-profile-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 1.5rem; overflow: hidden; }
-        .student-banner { height: 130px; background: url('banner.jpg') center/cover no-repeat; background-color: #3b2c5d; position: relative; }
-        .student-info-row { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 1rem; }
-        .student-avatar-box { display: flex; align-items: center; gap: 1rem; }
-        .profile-pic-placeholder { width: 75px; height: 75px; border-radius: 50%; background: #e2e8f0; border: 3px solid #fff; margin-top: -40px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: #64748b; font-weight: 600; text-align: center; background-size: cover; background-position: center; }
-        .student-detail-col { text-align: center; }
-        .student-detail-col .lbl { font-size: 0.75rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; }
-        .student-detail-col .val { font-size: 0.95rem; font-weight: 600; color: #374151; }
-        .vertical-sep { width: 1px; height: 30px; background-color: #cbd5e1; }
-        .view-profile-btn { color: #1e293b; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+        /* EXACT TIMETABLE HEADER MATCHING SCREENSHOT */
+        .student-profile-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1.2rem 2rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+        .student-info-group { display: flex; align-items: center; gap: 2rem; flex: 1; }
+        .student-detail-col { text-align: center; flex: 1; }
+        .student-detail-col .val { font-size: 0.95rem; font-weight: 600; color: #1e293b; margin-bottom: 0.15rem; }
+        .student-detail-col .lbl { font-size: 0.75rem; color: #64748b; font-weight: 400; }
+        .blue-sep { width: 2px; height: 32px; background-color: #0000FD; }
+        .view-profile-btn { color: #1e293b; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 6px; padding-left: 1rem; }
 
-        /* Timeline Card */
-        .timeline-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1.5rem; margin-bottom: 1.5rem; }
-        .timeline-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .timeline-title { font-size: 1.1rem; font-weight: 700; color: #334155; }
-        .btn-download-pdf { background-color: #dc2626; color: #fff; border: none; padding: 0.45rem 1rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; cursor: pointer; text-decoration: none; }
+        /* TIMELINE LAYOUT MATCHING SCREENSHOT */
+        .timeline-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1.8rem 2rem; margin-bottom: 1.5rem; }
+        .timeline-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .timeline-title { font-size: 1.2rem; font-weight: 700; color: #334155; }
+        .btn-download-pdf { background-color: #dc2626; color: #fff; border: none; padding: 0.45rem 1.1rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; cursor: pointer; text-decoration: none; }
         
-        .timeline-row { display: grid; grid-template-columns: 140px 40px 1fr 1fr; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9; }
-        .timeline-day { font-weight: 700; color: #334155; font-size: 0.9rem; align-self: start; padding-top: 0.2rem; }
-        .timeline-time { font-size: 0.85rem; color: #64748b; font-weight: 500; }
-        .timeline-dot-col { display: flex; justify-content: center; position: relative; }
-        .timeline-dot { width: 10px; height: 10px; border-radius: 50%; z-index: 2; }
-        .timeline-subject { font-size: 0.9rem; font-weight: 600; color: #1e293b; }
-        .timeline-teacher { font-size: 0.85rem; color: #475569; text-align: right; }
+        .timeline-container { position: relative; }
+        
+        /* Dark maroon continuous vertical line */
+        .timeline-vertical-line { position: absolute; left: 245px; top: 10px; bottom: 10px; width: 2px; background-color: #800000; z-index: 1; }
+
+        .timeline-block { margin-bottom: 2rem; }
+        .day-header { font-size: 1.05rem; font-weight: 700; color: #334155; width: 140px; }
+
+        .slot-row { display: flex; align-items: center; min-height: 75px; position: relative; margin-bottom: 0.5rem; }
+        .slot-day-col { width: 140px; font-weight: 700; color: #334155; font-size: 1rem; }
+        .slot-time-col { width: 95px; font-size: 0.88rem; color: #475569; font-weight: 500; display: flex; flex-direction: column; gap: 1.5rem; }
+        .slot-dot-col { width: 30px; display: flex; justify-content: center; align-items: center; z-index: 2; }
+        .timeline-dot { width: 11px; height: 11px; border-radius: 50%; z-index: 2; }
+        
+        .slot-details-col { flex: 1; padding-left: 1.8rem; }
+        .subject-name { font-size: 0.95rem; font-weight: 600; color: #1e293b; line-height: 1.3; }
+        .room-code { font-size: 0.85rem; color: #64748b; margin-top: 0.4rem; font-weight: 400; }
+        .teacher-name { font-size: 0.88rem; font-weight: 600; color: #475569; text-align: right; width: 220px; text-transform: uppercase; }
 
         /* ATTENDANCE EXACT PORTAL STYLING */
         .attendance-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 1.2rem; }
@@ -143,8 +151,9 @@
             .sidebar-panel { position: fixed; left: -280px; top: 0; height: 100vh; z-index: 9999; background: #ffffff; width: 250px; }
             .sidebar-panel.mobile-open { left: 0; }
             .sidebar-panel.mobile-close-btn { display: block; }
-            .timeline-row { grid-template-columns: 100px 30px 1fr; }
-            .timeline-teacher { display: none; }
+            .timeline-vertical-line { left: 180px; }
+            .slot-day-col { width: 90px; }
+            .teacher-name { width: 120px; font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -258,210 +267,436 @@
                     </div>
                 </div>
 
-                <!-- TIMETABLE VIEW (Exact matching screenshot layout with Timeline and Student Header) -->
+                <!-- TIMETABLE VIEW (100% Exact Match to image_96d105.jpg) -->
                 <div id="timetable-view" class="page-view">
-                    <!-- Student Profile Banner Header Card -->
+                    
+                    <!-- Student Header with Blue Separator Lines -->
                     <div class="student-profile-card">
-                        <div class="student-banner"></div>
-                        <div class="student-info-row">
-                            <div class="student-avatar-box">
-                                <div class="profile-pic-placeholder">No Pic</div>
-                            </div>
+                        <div class="student-info-group">
                             <div class="student-detail-col">
-                                <div class="lbl">Name</div>
                                 <div class="val">Hashir Imran</div>
+                                <div class="lbl">Name</div>
                             </div>
-                            <div class="vertical-sep"></div>
+                            <div class="blue-sep"></div>
                             <div class="student-detail-col">
-                                <div class="lbl">Roll #</div>
                                 <div class="val">0605-1-25</div>
+                                <div class="lbl">Roll #</div>
                             </div>
-                            <div class="vertical-sep"></div>
+                            <div class="blue-sep"></div>
                             <div class="student-detail-col">
-                                <div class="lbl">Major</div>
                                 <div class="val">INTERMEDIATE</div>
+                                <div class="lbl">Major</div>
                             </div>
-                            <div class="vertical-sep"></div>
+                            <div class="blue-sep"></div>
                             <div class="student-detail-col">
-                                <div class="lbl">Semester</div>
                                 <div class="val">2</div>
+                                <div class="lbl">Semester</div>
                             </div>
-                            <a href="#" class="view-profile-btn">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                View Profile
-                            </a>
                         </div>
+                        <a href="#" class="view-profile-btn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            View Profile
+                        </a>
                     </div>
 
-                    <!-- Timeline Content Card -->
+                    <!-- Timeline Section -->
                     <div class="timeline-card">
                         <div class="timeline-card-header">
                             <div class="timeline-title">Class TimeLine</div>
                             <button class="btn-download-pdf">Download Pdf</button>
                         </div>
 
-                        <!-- TIMELINE ENTRIES -->
-                        <div class="timeline-rows-container">
-                            
+                        <div class="timeline-container">
+                            <!-- Continuous Vertical Dark Red/Maroon Line -->
+                            <div class="timeline-vertical-line"></div>
+
                             <!-- MONDAY -->
-                            <div class="timeline-row">
-                                <div class="timeline-day">Monday</div>
-                                <div class="timeline-time">8:00 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #dc2626;"></div></div>
-                                <div>
-                                    <div class="timeline-subject">English</div>
-                                    <div style="font-size: 0.8rem; color: #64748b;">ISBAH USMAN</div>
+                            <div class="slot-row">
+                                <div class="slot-day-col">Monday</div>
+                                <div class="slot-time-col">
+                                    <span>8:00 AM</span>
+                                    <span>8:44 AM</span>
                                 </div>
-                                <div class="timeline-teacher">NB-301</div>
-                            </div>
-                            <div class="timeline-row">
-                                <div class="timeline-day"></div>
-                                <div class="timeline-time">8:44 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #cbd5e1;"></div></div>
-                                <div class="timeline-subject" style="color: #64748b; font-weight: normal;">NB-301</div>
-                                <div class="timeline-teacher"></div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #e11d48;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">English</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">ISBAH USMAN</div>
                             </div>
 
-                            <div class="timeline-row">
-                                <div class="timeline-day"></div>
-                                <div class="timeline-time">8:45 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #2563eb;"></div></div>
-                                <div>
-                                    <div class="timeline-subject">Chemistry</div>
-                                    <div style="font-size: 0.8rem; color: #64748b;">Syeda Kandeel Zahra</div>
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>8:45 AM</span>
+                                    <span>9:29 AM</span>
                                 </div>
-                                <div class="timeline-teacher">NB-301</div>
-                            </div>
-                            <div class="timeline-row">
-                                <div class="timeline-day"></div>
-                                <div class="timeline-time">9:29 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #cbd5e1;"></div></div>
-                                <div class="timeline-subject" style="color: #64748b; font-weight: normal;">NB-301</div>
-                                <div class="timeline-teacher"></div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #2563eb;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Chemistry</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">Syeda Kandeel Zahra</div>
                             </div>
 
-                            <div class="timeline-row">
-                                <div class="timeline-day"></div>
-                                <div class="timeline-time">9:30 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #16a34a;"></div></div>
-                                <div>
-                                    <div class="timeline-subject">Mathematics</div>
-                                    <div style="font-size: 0.8rem; color: #64748b;">KHWAJA AFTAB AHMAD</div>
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>9:30 AM</span>
+                                    <span>10:14 AM</span>
                                 </div>
-                                <div class="timeline-teacher">NB-301</div>
-                            </div>
-                            <div class="timeline-row">
-                                <div class="timeline-day"></div>
-                                <div class="timeline-time">10:14 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #cbd5e1;"></div></div>
-                                <div class="timeline-subject" style="color: #64748b; font-weight: normal;">NB-301</div>
-                                <div class="timeline-teacher"></div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #16a34a;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Mathematics</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">KHWAJA AFTAB AHMAD</div>
                             </div>
 
-                            <div class="timeline-row">
-                                <div class="timeline-day"></div>
-                                <div class="timeline-time">11:00 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #ca8a04;"></div></div>
-                                <div>
-                                    <div class="timeline-subject">Urdu</div>
-                                    <div style="font-size: 0.8rem; color: #64748b;">Darakhshan Zeeshan</div>
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>11:00 AM</span>
+                                    <span>11:44 AM</span>
                                 </div>
-                                <div class="timeline-teacher">NB-301</div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #d97706;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Urdu</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">Darakhshan Zeeshan</div>
                             </div>
-                            <div class="timeline-row">
-                                <div class="timeline-day"></div>
-                                <div class="timeline-time">11:44 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #cbd5e1;"></div></div>
-                                <div class="timeline-subject" style="color: #64748b; font-weight: normal;">NB-301</div>
-                                <div class="timeline-teacher"></div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>11:45 AM</span>
+                                    <span>12:29 PM</span>
+                                </div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #7c3aed;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Physics</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">Javaid Iqbal Chohan</div>
                             </div>
 
                             <!-- TUESDAY -->
-                            <div class="timeline-row" style="margin-top: 1rem;">
-                                <div class="timeline-day">Tuesday</div>
-                                <div class="timeline-time">8:00 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #dc2626;"></div></div>
-                                <div>
-                                    <div class="timeline-subject">English</div>
-                                    <div style="font-size: 0.8rem; color: #64748b;">ISBAH USMAN</div>
+                            <div class="slot-row" style="margin-top: 1.5rem;">
+                                <div class="slot-day-col">Tuesday</div>
+                                <div class="slot-time-col">
+                                    <span>8:00 AM</span>
+                                    <span>8:44 AM</span>
                                 </div>
-                                <div class="timeline-teacher">NB-301</div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #e11d48;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">English</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">ISBAH USMAN</div>
                             </div>
-                            <div class="timeline-row">
-                                <div class="timeline-day"></div>
-                                <div class="timeline-time">8:45 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #2563eb;"></div></div>
-                                <div>
-                                    <div class="timeline-subject">Chemistry Prac</div>
-                                    <div style="font-size: 0.8rem; color: #64748b;">Syeda Kandeel Zahra</div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>8:45 AM</span>
+                                    <span>9:29 AM</span>
                                 </div>
-                                <div class="timeline-teacher">F.Sc. Lab-IV</div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #2563eb;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Chemistry Prac</div>
+                                    <div class="room-code">F.Sc. Lab-IV</div>
+                                </div>
+                                <div class="teacher-name">Syeda Kandeel Zahra</div>
+                            </div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>9:30 AM</span>
+                                    <span>10:14 AM</span>
+                                </div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #16a34a;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Mathematics</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">KHWAJA AFTAB AHMAD</div>
+                            </div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>11:00 AM</span>
+                                    <span>11:44 AM</span>
+                                </div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #d97706;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Urdu</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">Darakhshan Zeeshan</div>
+                            </div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>11:45 AM</span>
+                                    <span>12:29 PM</span>
+                                </div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #7c3aed;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Physics</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">Javaid Iqbal Chohan</div>
                             </div>
 
                             <!-- WEDNESDAY -->
-                            <div class="timeline-row" style="margin-top: 1rem;">
-                                <div class="timeline-day">Wednesday</div>
-                                <div class="timeline-time">8:00 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #dc2626;"></div></div>
-                                <div>
-                                    <div class="timeline-subject">English</div>
-                                    <div style="font-size: 0.8rem; color: #64748b;">ISBAH USMAN</div>
+                            <div class="slot-row" style="margin-top: 1.5rem;">
+                                <div class="slot-day-col">Wednesday</div>
+                                <div class="slot-time-col">
+                                    <span>8:00 AM</span>
+                                    <span>8:44 AM</span>
                                 </div>
-                                <div class="timeline-teacher">NB-301</div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #e11d48;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">English</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">ISBAH USMAN</div>
                             </div>
-                            <div class="timeline-row">
-                                <div class="timeline-day"></div>
-                                <div class="timeline-time">9:30 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #16a34a;"></div></div>
-                                <div>
-                                    <div class="timeline-subject">Pak. Studies</div>
-                                    <div style="font-size: 0.8rem; color: #64748b;">DR. SAEED AHMED BUTT</div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>8:45 AM</span>
+                                    <span>9:29 AM</span>
                                 </div>
-                                <div class="timeline-teacher">NB-301</div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #2563eb;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Chemistry</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">Syeda Kandeel Zahra</div>
+                            </div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>9:30 AM</span>
+                                    <span>11:44 AM</span>
+                                </div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #059669;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Pak. Studies</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">DR. SAEED AHMED BUTT</div>
+                            </div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>11:45 AM</span>
+                                    <span>12:29 PM</span>
+                                </div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #7c3aed;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Physics</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">Javaid Iqbal Chohan</div>
                             </div>
 
                             <!-- THURSDAY -->
-                            <div class="timeline-row" style="margin-top: 1rem;">
-                                <div class="timeline-day">Thursday</div>
-                                <div class="timeline-time">8:00 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #dc2626;"></div></div>
-                                <div>
-                                    <div class="timeline-subject">English</div>
-                                    <div style="font-size: 0.8rem; color: #64748b;">ISBAH USMAN</div>
+                            <div class="slot-row" style="margin-top: 1.5rem;">
+                                <div class="slot-day-col">Thursday</div>
+                                <div class="slot-time-col">
+                                    <span>8:00 AM</span>
+                                    <span>8:44 AM</span>
                                 </div>
-                                <div class="timeline-teacher">NB-301</div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #e11d48;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">English</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">ISBAH USMAN</div>
                             </div>
-                            <div class="timeline-row">
-                                <div class="timeline-day"></div>
-                                <div class="timeline-time">9:30 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #16a34a;"></div></div>
-                                <div>
-                                    <div class="timeline-subject">Mathematics</div>
-                                    <div style="font-size: 0.8rem; color: #64748b;">KHWAJA AFTAB AHMAD</div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>8:45 AM</span>
+                                    <span>9:29 AM</span>
                                 </div>
-                                <div class="timeline-teacher">NB-301</div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #2563eb;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Chemistry</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">Syeda Kandeel Zahra</div>
+                            </div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>9:30 AM</span>
+                                    <span>10:14 AM</span>
+                                </div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #16a34a;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Mathematics</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">KHWAJA AFTAB AHMAD</div>
+                            </div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>11:00 AM</span>
+                                    <span>11:44 AM</span>
+                                </div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #059669;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Pak. Studies</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">DR. SAEED AHMED BUTT</div>
+                            </div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>11:45 AM</span>
+                                    <span>12:29 PM</span>
+                                </div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #7c3aed;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Physics</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">Javaid Iqbal Chohan</div>
                             </div>
 
                             <!-- FRIDAY -->
-                            <div class="timeline-row" style="margin-top: 1rem;">
-                                <div class="timeline-day">Friday</div>
-                                <div class="timeline-time">8:00 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #7c3aed;"></div></div>
-                                <div>
-                                    <div class="timeline-subject">Translation of the Holy Quran (Comp.)</div>
-                                    <div style="font-size: 0.8rem; color: #64748b;">MUHAMMAD RAFFAY</div>
+                            <div class="slot-row" style="margin-top: 1.5rem;">
+                                <div class="slot-day-col">Friday</div>
+                                <div class="slot-time-col">
+                                    <span>8:00 AM</span>
+                                    <span>8:44 AM</span>
                                 </div>
-                                <div class="timeline-teacher">NB-301</div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #0d9488;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Translation of the Holy Quran (Comp.)</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">MUHAMMAD RAFFAY</div>
                             </div>
-                            <div class="timeline-row">
-                                <div class="timeline-day"></div>
-                                <div class="timeline-time">10:15 AM</div>
-                                <div class="timeline-dot-col"><div class="timeline-dot" style="background-color: #0284c7;"></div></div>
-                                <div>
-                                    <div class="timeline-subject">Physics Prac</div>
-                                    <div style="font-size: 0.8rem; color: #64748b;">Javaid Iqbal Chohan</div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>8:45 AM</span>
+                                    <span>9:29 AM</span>
                                 </div>
-                                <div class="timeline-teacher">F.Sc Lab-1</div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #2563eb;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Chemistry</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">Syeda Kandeel Zahra</div>
+                            </div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>9:30 AM</span>
+                                    <span>10:14 AM</span>
+                                </div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #16a34a;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Mathematics</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">KHWAJA AFTAB AHMAD</div>
+                            </div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>10:15 AM</span>
+                                    <span>10:59 AM</span>
+                                </div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #0284c7;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Physics Prac</div>
+                                    <div class="room-code">F.Sc Lab-1</div>
+                                </div>
+                                <div class="teacher-name">Javaid Iqbal Chohan</div>
+                            </div>
+
+                            <div class="slot-row">
+                                <div class="slot-day-col"></div>
+                                <div class="slot-time-col">
+                                    <span>11:00 AM</span>
+                                    <span>11:44 AM</span>
+                                </div>
+                                <div class="slot-dot-col">
+                                    <div class="timeline-dot" style="background-color: #d97706;"></div>
+                                </div>
+                                <div class="slot-details-col">
+                                    <div class="subject-name">Urdu</div>
+                                    <div class="room-code">NB-301</div>
+                                </div>
+                                <div class="teacher-name">Darakhshan Zeeshan</div>
                             </div>
 
                         </div>
