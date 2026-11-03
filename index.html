@@ -84,14 +84,19 @@
         .announcement-table th { text-align: left; font-size: 0.8rem; color: #718096; padding-bottom: 0.6rem; border-bottom: 1px solid #e2e8f0; font-weight: 700; }
         .announcement-table td { padding: 0.8rem 0; font-size: 0.82rem; color: #2d3748; border-bottom: 1px solid #edf2f7; white-space: pre-line; line-height: 1.35; }
 
-        /* DESKTOP & RESPONSIVE STUDENT HEADER CARD */
-        .student-profile-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1.2rem 2rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; }
-        .student-info-group { display: flex; align-items: center; gap: 2rem; flex: 1; }
+        /* PERFECT RESPONSIVE STUDENT HEADER CARD WITH BANNER & AVATAR */
+        .student-profile-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 1.5rem; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .student-banner { height: 110px; background: linear-gradient(135deg, #2b3a67, #4a1515); position: relative; }
+        .student-avatar-overlap { width: 80px; height: 80px; border-radius: 50%; border: 4px solid #fff; object-fit: cover; margin: -40px auto 0 auto; display: block; background: #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        
+        .student-info-group { display: flex; align-items: center; justify-content: space-around; padding: 1rem 1.5rem; border-bottom: 1px solid #e2e8f0; }
         .student-detail-col { text-align: center; flex: 1; }
         .student-detail-col .val { font-size: 0.95rem; font-weight: 600; color: #1e293b; margin-bottom: 0.15rem; }
-        .student-detail-col .lbl { font-size: 0.75rem; color: #64748b; font-weight: 400; }
+        .student-detail-col .lbl { font-size: 0.75rem; color: #64748b; font-weight: 400; text-transform: uppercase; }
         .blue-sep { width: 2px; height: 32px; background-color: #0000FD; }
-        .view-profile-btn { color: #1e293b; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 6px; padding-left: 1rem; white-space: nowrap; }
+        
+        .student-card-footer { padding: 0.8rem 1.5rem; text-align: center; background: #fff; }
+        .view-profile-btn { color: #1e293b; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
 
         /* TIMELINE PERFECT ALIGNMENT MATCH */
         .timeline-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1.8rem 2rem; margin-bottom: 1.5rem; overflow-x: auto; }
@@ -109,7 +114,6 @@
         .time-col { width: 95px; font-size: 0.85rem; color: #475569; font-weight: 500; }
         .dot-col { width: 30px; display: flex; justify-content: center; align-items: center; z-index: 2; position: relative; }
         
-        /* Prominent main dots & subtle sub dots */
         .dot-main { width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 0 2px #fff; z-index: 2; }
         .dot-sub { width: 7px; height: 7px; border-radius: 50%; background-color: #cbd5e1; box-shadow: 0 0 0 2px #fff; z-index: 2; }
 
@@ -152,12 +156,10 @@
             .sidebar-panel.mobile-open { left: 0; }
             .sidebar-panel.mobile-close-btn { display: block; }
             
-            /* Mobile Student Card Fix matching screenshot 1000128155.jpg */
-            .student-profile-card { flex-direction: column; align-items: center; text-align: center; padding: 1rem; gap: 1rem; }
-            .student-info-group { flex-direction: column; width: 100%; gap: 1rem; }
+            /* Mobile Student Card Fix */
+            .student-info-group { flex-direction: column; gap: 1rem; padding: 1rem; }
             .blue-sep { display: none; }
-            .student-detail-col { width: 100%; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem; }
-            .view-profile-btn { padding-left: 0; margin-top: 0.5rem; }
+            .student-detail-col { width: 100%; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.6rem; }
             
             /* Timeline adjustments for mobile */
             .timeline-container { min-width: 100%; }
@@ -278,11 +280,13 @@
                     </div>
                 </div>
 
-                <!-- TIMETABLE VIEW (Fully Responsive Mobile & Desktop Layout) -->
+                <!-- TIMETABLE VIEW -->
                 <div id="timetable-view" class="page-view">
                     
-                    <!-- Student Header -->
+                    <!-- Fixed Student Header with Banner & Avatar -->
                     <div class="student-profile-card">
+                        <div class="student-banner"></div>
+                        <img src="Screenshot_2026_1030_020002.png" class="student-avatar-overlap" alt="Student Avatar">
                         <div class="student-info-group">
                             <div class="student-detail-col">
                                 <div class="val">Hashir Imran</div>
@@ -304,10 +308,12 @@
                                 <div class="lbl">Semester</div>
                             </div>
                         </div>
-                        <a href="#" class="view-profile-btn">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                            View Profile
-                        </a>
+                        <div class="student-card-footer">
+                            <a href="#" class="view-profile-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                                View Profile
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Timeline Section -->
