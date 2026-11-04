@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GCU Lahore - Login</title>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -54,10 +53,10 @@
 
             <form class="login-form" id="loginForm">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Username" required>
+                    <input type="text" id="usernameInput" class="form-control" placeholder="Username (e.g. hashir imran)" required>
                 </div>
                 <div class="input-group">
-                    <input type="password" class="form-control" placeholder="Password" required>
+                    <input type="password" id="passwordInput" class="form-control" placeholder="Password (e.g. group2)" required>
                 </div>
                 <div class="form-actions">
                     <a href="#" class="recover-link">Recover Password</a>
@@ -70,10 +69,64 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            // Auth token/session set
+            
+            const username = document.getElementById('usernameInput').value.trim().toLowerCase();
+            const password = document.getElementById('passwordInput').value.trim().toLowerCase();
+
+            let fullName = "";
+            let rollNo = "";
+            let avatarFile = "";
+            let targetDashboard = "dashboard1.html";
+
+            // ---------------- GROUP 1 ----------------
+            if (password === 'group1' && ['gohar', 'abdulrehman', 'abdul ahad'].includes(username)) {
+                if (username === 'gohar') {
+                    fullName = "GOHAR";
+                    rollNo = "0557-1-25";
+                    avatarFile = "gohar.png";
+                } else if (username === 'abdulrehman') {
+                    fullName = "ABDUL REHMAN";
+                    rollNo = "1902-1-25";
+                    avatarFile = "abdulrehman.png";
+                } else if (username === 'abdul ahad') {
+                    fullName = "ABDUL AHAD";
+                    rollNo = "4237-1-25";
+                    avatarFile = "ahad.png";
+                }
+                targetDashboard = 'dashboard1.html';
+            }
+            // ---------------- GROUP 2 ----------------
+            else if (password === 'group2' && ['ali rehman', 'hashir imran'].includes(username)) {
+                if (username === 'hashir imran') {
+                    fullName = "HASHIR IMRAN";
+                    rollNo = "0605-1-25";
+                    avatarFile = "hashir.png";
+                } else if (username === 'ali rehman') {
+                    fullName = "ALI REHMAN";
+                    rollNo = "1905-1-25";
+                    avatarFile = "ali.png";
+                }
+                targetDashboard = 'dashboard.html'; // Filhal main dashboard
+            }
+            // ---------------- GROUP 3 ----------------
+            else if (password === 'group3' && username === 'bahawal imran') {
+                fullName = "BAHAWAL IMRAN";
+                rollNo = "1912-1-25";
+                avatarFile = "bahawal imran.png";
+                targetDashboard = 'dashboard.html';
+            }
+            else {
+                alert('Invalid Username or Password! Check your group password and spelling.');
+                return;
+            }
+
+            // Save details to localStorage
+            localStorage.setItem('student_name', fullName);
+            localStorage.setItem('student_roll', rollNo);
+            localStorage.setItem('student_avatar', avatarFile);
             localStorage.setItem('gcu_logged_in', 'true');
-            // Redirect to Student Portal
-            window.location.href = 'dashboard.html';
+
+            window.location.href = targetDashboard;
         });
     </script>
 </body>

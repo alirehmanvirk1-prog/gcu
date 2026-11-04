@@ -27,7 +27,7 @@
         .bell-box { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; cursor: pointer; }
         .user-profile-wrapper { position: relative; cursor: pointer; }
         .user-profile-box { display: flex; align-items: center; gap: 0.6rem; }
-        .user-avatar-img { width: 34px; height: 34px; border-radius: 6px; object-fit: cover; }
+        .user-avatar-img { width: 34px; height: 34px; border-radius: 6px; object-fit: cover; background: #e2e8f0; }
         .user-meta { display: flex; flex-direction: column; line-height: 1.2; }
         .user-meta .name { font-size: 0.85rem; font-weight: 600; color: #374151; }
         .user-meta .id { font-size: 0.7rem; color: #9ca3af; }
@@ -65,10 +65,10 @@
         .announcement-table th { text-align: left; font-size: 0.8rem; color: #718096; padding-bottom: 0.6rem; border-bottom: 1px solid #e2e8f0; font-weight: 700; }
         .announcement-table td { padding: 0.8rem 0; font-size: 0.82rem; color: #2d3748; border-bottom: 1px solid #edf2f7; white-space: pre-line; line-height: 1.35; }
 
-        /* STUDENT HEADER CARD WITH EMPTY PLACEHOLDER */
+        /* DYNAMIC STUDENT HEADER CARD WITH USER IMAGE */
         .student-profile-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 1.2rem; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .student-banner { height: 95px; background: linear-gradient(135deg, #2b3a67, #4a1515); position: relative; }
-        .student-avatar-placeholder { width: 72px; height: 72px; border-radius: 50%; border: 4px solid #fff; margin: -36px auto 0 auto; display: block; background: #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .student-avatar-img-card { width: 72px; height: 72px; border-radius: 50%; border: 4px solid #fff; margin: -36px auto 0 auto; display: block; object-fit: cover; background: #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
         
         .student-info-group { display: flex; align-items: center; justify-content: space-around; padding: 0.8rem 1rem; border-bottom: 1px solid #e2e8f0; }
         .student-detail-col { text-align: center; flex: 1; }
@@ -164,7 +164,7 @@
             
             <div class="user-profile-wrapper" id="profileDropdownTrigger">
                 <div class="user-profile-box">
-                    <img src="Screenshot_2026_1030_020002.png" class="user-avatar-img" id="userAvatar" alt="User">
+                    <img src="hashir.png" class="user-avatar-img" id="userAvatar" alt="User">
                     <img src="caret-down.png" class="caret-icon" alt="v">
                     <div class="user-meta">
                         <span class="name" id="studentNameText">HASHIR IMRAN</span>
@@ -225,18 +225,18 @@
             <!-- TIMETABLE VIEW -->
             <div id="timetable-view" class="page-view">
                 
-                <!-- Student Header Card -->
+                <!-- Dynamic Student Header Card -->
                 <div class="student-profile-card">
                     <div class="student-banner"></div>
-                    <div class="student-avatar-placeholder"></div>
+                    <img src="hashir.png" class="student-avatar-img-card" id="cardUserAvatar" alt="Avatar">
                     <div class="student-info-group">
                         <div class="student-detail-col">
-                            <div class="val">Hashir Imran</div>
+                            <div class="val" id="cardNameVal">Hashir Imran</div>
                             <div class="lbl">Name</div>
                         </div>
                         <div class="blue-sep"></div>
                         <div class="student-detail-col">
-                            <div class="val">0605-1-25</div>
+                            <div class="val" id="cardRollVal">0605-1-25</div>
                             <div class="lbl">Roll #</div>
                         </div>
                         <div class="blue-sep"></div>
@@ -538,8 +538,22 @@
     <script>
         // Authentication Guard: Redirect if not logged in
         if (localStorage.getItem('gcu_logged_in') !== 'true') {
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         }
+
+        // Apply Logged-in User Dynamic Details & Avatar
+        const currentName = localStorage.getItem('student_name') || 'HASHIR IMRAN';
+        const currentRoll = localStorage.getItem('student_roll') || '0605-1-25';
+        const currentAvatar = localStorage.getItem('student_avatar') || 'hashir.png';
+
+        document.getElementById('studentNameText').innerText = currentName;
+        document.getElementById('studentIdText').innerText = currentRoll;
+        document.getElementById('dropdownStudentHeader').innerText = currentName;
+        document.getElementById('userAvatar').src = currentAvatar;
+
+        document.getElementById('cardNameVal').innerText = currentName;
+        document.getElementById('cardRollVal').innerText = currentRoll;
+        document.getElementById('cardUserAvatar').src = currentAvatar;
 
         let pieChartInst = null;
         let lineChartInst = null;
@@ -582,8 +596,8 @@
         });
 
         document.getElementById('logoutBtn').addEventListener('click', function() {
-            localStorage.removeItem('gcu_logged_in');
-            window.location.href = 'login.html';
+            localStorage.clear();
+            window.location.href = 'index.html';
         });
 
         window.addEventListener('click', function() {
@@ -593,23 +607,20 @@
 
         async function loadPortalData() {
             try {
-                let avatarSrc = "Screenshot_2026_1030_020002.png";
                 let sectionIcons = { courses: "schedule.png", announcements: "exam.png" };
                 let announcements = [
-                    { title: "Welcome to New Semester", date: "01 Nov, 2026", details: "Classes have officially started for Hashir Imran." }
+                    { title: "Welcome to New Semester", date: "01 Nov, 2026", details: `Classes have officially started for ${currentName}.` }
                 ];
 
                 try {
                     const response = await fetch('manifest.json');
                     const data = await response.json();
-                    if(data.student_info && data.student_info.avatar) avatarSrc = data.student_info.avatar;
                     if(data.section_icons) sectionIcons = data.section_icons;
                     if(data.announcements) announcements = data.announcements;
                 } catch(err) {
                     console.log("Using internal fallback data.");
                 }
 
-                document.getElementById('userAvatar').src = avatarSrc;
                 document.getElementById('coursesIconImg').src = sectionIcons.courses;
                 document.getElementById('announcementIconImg').src = sectionIcons.announcements;
 
@@ -653,7 +664,7 @@
         function fetchAttendanceFromDB(courseCode) {
             let records = [];
             let startDate = new Date('2026-08-17');
-            let endDate = new Date('2026-11-03');
+            let endDate = new Date('2026-11-04');
             let currentDate = new Date(startDate);
             let sr = 1;
 
@@ -696,11 +707,7 @@
                     }
 
                     let formattedDate = currentDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-                    records.push({
-                        sr: 0,
-                        date: formattedDate,
-                        status: status
-                    });
+                    records.push({ sr: 0, date: formattedDate, status: status });
                 }
                 currentDate.setDate(currentDate.getDate() + 1);
             }
@@ -723,9 +730,9 @@
                 leaves: 0,
                 percentage: percentage,
                 monthlyData: { 
-                    labels: ['Oct', 'Sep', 'Aug'], 
-                    absents: [monthlyStats["Oct"].absent, monthlyStats["Sep"].absent, monthlyStats["Aug"].absent], 
-                    presents: [monthlyStats["Oct"].present, monthlyStats["Sep"].present, monthlyStats["Aug"].present] 
+                    labels: ['Nov', 'Oct', 'Sep', 'Aug'], 
+                    absents: [monthlyStats["Nov"].absent, monthlyStats["Oct"].absent, monthlyStats["Sep"].absent, monthlyStats["Aug"].absent], 
+                    presents: [monthlyStats["Nov"].present, monthlyStats["Oct"].present, monthlyStats["Sep"].present, monthlyStats["Aug"].present] 
                 },
                 records: records
             };
@@ -753,10 +760,7 @@
                 type: 'pie',
                 data: {
                     labels: ['Absents', 'Presents', 'Leaves'],
-                    datasets: [{ 
-                        data: [data.absents, data.presents, data.leaves], 
-                        backgroundColor: ['#FFA1B5', '#86C7F3', '#ffce56'] 
-                    }]
+                    datasets: [{ data: [data.absents, data.presents, data.leaves], backgroundColor: ['#FFA1B5', '#86C7F3', '#ffce56'] }]
                 },
                 options: { plugins: { legend: { display: false } } }
             });
@@ -769,14 +773,10 @@
                     datasets: [
                         { label: 'Absent', data: data.monthlyData.absents, borderColor: '#8b5cf6', fill: false, tension: 0.3 },
                         { label: 'Present', data: data.monthlyData.presents, borderColor: '#0284c7', fill: false, tension: 0.3 },
-                        { label: 'Leaves', data: [0, 0, 0], borderColor: '#eab308', fill: false, tension: 0.3 }
+                        { label: 'Leaves', data: [0, 0, 0, 0], borderColor: '#eab308', fill: false, tension: 0.3 }
                     ]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
         }
 
