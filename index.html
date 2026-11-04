@@ -53,10 +53,10 @@
 
             <form class="login-form" id="loginForm">
                 <div class="input-group">
-                    <input type="text" id="usernameInput" class="form-control" placeholder="Username (e.g. gohar)" required>
+                    <input type="text" id="usernameInput" class="form-control" placeholder="Username (Roll Number e.g. 0605-1-25)" required>
                 </div>
                 <div class="input-group">
-                    <input type="password" id="passwordInput" class="form-control" placeholder="Password (e.g. group1)" required>
+                    <input type="password" id="passwordInput" class="form-control" placeholder="Password (Name e.g. hashir imran)" required>
                 </div>
                 <div class="form-actions">
                     <a href="#" class="recover-link">Recover Password</a>
@@ -70,63 +70,41 @@
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const username = document.getElementById('usernameInput').value.trim().toLowerCase();
-            const password = document.getElementById('passwordInput').value.trim().toLowerCase();
+            // Username = Roll Number, Password = Student Name
+            const rollNo = document.getElementById('usernameInput').value.trim();
+            const passwordName = document.getElementById('passwordInput').value.trim().toLowerCase();
 
-            let fullName = "";
-            let rollNo = "";
-            let avatarFile = "";
-            let targetDashboard = "dashboard.html"; // Sabhi ke liye filhal single dashboard
+            let targetFile = "";
 
-            // ---------------- GROUP 1 ----------------
-            if (password === 'group1' && ['gohar', 'abdulrehman', 'abdul ahad'].includes(username)) {
-                if (username === 'gohar') {
-                    fullName = "GOHAR";
-                    rollNo = "0557-1-25";
-                    avatarFile = "gohar.png";
-                } else if (username === 'abdulrehman') {
-                    fullName = "ABDUL REHMAN";
-                    rollNo = "1902-1-25";
-                    avatarFile = "abdulrehman.png";
-                } else if (username === 'abdul ahad') {
-                    fullName = "ABDUL AHAD";
-                    rollNo = "4237-1-25";
-                    avatarFile = "ahad.png";
-                }
-                targetDashboard = 'dashboard.html';
-            }
-            // ---------------- GROUP 2 ----------------
-            else if (password === 'group2' && ['ali rehman', 'hashir imran'].includes(username)) {
-                if (username === 'hashir imran') {
-                    fullName = "HASHIR IMRAN";
-                    rollNo = "0605-1-25";
-                    avatarFile = "hashir.png";
-                } else if (username === 'ali rehman') {
-                    fullName = "ALI REHMAN";
-                    rollNo = "1905-1-25";
-                    avatarFile = "ali.png";
-                }
-                targetDashboard = 'dashboard.html';
-            }
-            // ---------------- GROUP 3 ----------------
-            else if (password === 'group3' && username === 'bahawal imran') {
-                fullName = "BAHAWAL IMRAN";
-                rollNo = "1912-1-25";
-                avatarFile = "bahawal imran.png";
-                targetDashboard = 'dashboard.html';
-            }
+            // Mapping Roll Numbers (Username) and Names (Password) to 6 separate dashboard files
+            if (rollNo === '0557-1-25' && passwordName === 'gohar') {
+                targetFile = 'gohar.html';
+            } 
+            else if (rollNo === '1902-1-25' && passwordName === 'abdulrehman') {
+                targetFile = 'abdulrehman.html';
+            } 
+            else if (rollNo === '4237-1-25' && passwordName === 'abdul ahad') {
+                targetFile = 'ahad.html';
+            } 
+            else if (rollNo === '1905-1-25' && passwordName === 'ali rehman') {
+                targetFile = 'ali.html';
+            } 
+            else if (rollNo === '0605-1-25' && passwordName === 'hashir imran') {
+                targetFile = 'hashir.html';
+            } 
+            else if (rollNo === '1912-1-25' && passwordName === 'bahawal imran') {
+                targetFile = 'bahawal.html';
+            } 
             else {
-                alert('Invalid Username or Password! Check your group password and spelling.');
+                alert('Ghalat Roll Number ya Name hai! Apni sahi credentials enter karein.');
                 return;
             }
 
-            // Save details to localStorage
-            localStorage.setItem('student_name', fullName);
-            localStorage.setItem('student_roll', rollNo);
-            localStorage.setItem('student_avatar', avatarFile);
+            // Set login session flag
             localStorage.setItem('gcu_logged_in', 'true');
-
-            window.location.href = targetDashboard;
+            
+            // Redirect to their specific dashboard file
+            window.location.href = targetFile;
         });
     </script>
 </body>
