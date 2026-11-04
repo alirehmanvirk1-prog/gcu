@@ -714,14 +714,12 @@
         </main>
     </div>
 
-    <!-- SCRIPT FOR INTEGRATION -->
+    <!-- SCRIPT WITH 6:00 AM ATTENDANCE LOCK LOGIC -->
     <script>
-        // Authentication Guard: Redirect if not logged in
         if (localStorage.getItem('gcu_logged_in') !== 'true') {
             window.location.href = 'index.html';
         }
 
-        // Hardcoded identity specifications for Bahawal Imran
         const currentName = 'Bahawal Imran';
         const currentRoll = '1912-1-25';
         const currentAvatar = 'bahawal imran.png';
@@ -738,7 +736,6 @@
         let pieChartInst = null;
         let lineChartInst = null;
 
-        // Exact Courses extracted from Bahawal Imran's TimeTable Image
         const customCourses = [
             { code: "MATH-2001", title: "Mathematics" },
             { code: "PS-2001", title: "Pak. Studies" },
@@ -751,7 +748,6 @@
             { code: "PHY-2010 P", title: "Physics Prac" }
         ];
 
-        // Navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -844,10 +840,19 @@
             if(courses.length > 0) fetchAttendanceFromDB(courses[0].code);
         }
 
+        /* 6:00 AM CHECK LOGIC FOR DYNAMIC ATTENDANCE */
         function fetchAttendanceFromDB(courseCode) {
             let records = [];
             let startDate = new Date('2026-08-17');
-            let endDate = new Date('2026-11-05'); // Today's Date (5 Nov 2026)
+            
+            let now = new Date();
+            let endDate = new Date(now);
+            
+            // Agar subah ke 6 bajne se pehle ka waqt hai, toh endDate ko 1 din peechhe (kal tak) par limit kar denge
+            if (now.getHours() < 6) {
+                endDate.setDate(endDate.getDate() - 1);
+            }
+
             let currentDate = new Date(startDate);
 
             let monthlyStats = {
@@ -857,16 +862,14 @@
                 "Nov": { present: 0, absent: 0 }
             };
 
-            // Seed based on course code to produce consistent 89% - 97% attendance range
             let charSum = 0;
             for(let i = 0; i < courseCode.length; i++) charSum += courseCode.charCodeAt(i);
             let targetPercentage = 0.89 + ((charSum % 9) * 0.01);
 
             while (currentDate <= endDate) {
-                let dayOfWeek = currentDate.getDay(); // 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri
+                let dayOfWeek = currentDate.getDay(); 
                 let isClassDay = false;
 
-                // Exact Day-Wise Logic matching Bahawal Imran's CS Timetable Image
                 if (dayOfWeek === 1) { // Monday
                     if (["MATH-2001", "PS-2001", "URDU-2001", "ENG-2001", "PHY-2001", "CS-2001 P"].includes(courseCode)) isClassDay = true;
                 } else if (dayOfWeek === 2) { // Tuesday
@@ -881,8 +884,15 @@
 
                 if (isClassDay) {
                     let monthName = currentDate.toLocaleString('en-US', { month: 'short' });
-                    let randomVal = Math.random();
-                    let status = (randomVal < targetPercentage) ? "Present" : "Absent";
+                    let dateStr = currentDate.toISOString().split('T')[0];
+                    let storageKey = `att_${currentRoll}_${courseCode}_${dateStr}`;
+                    
+                    let status = localStorage.getItem(storageKey);
+                    if (!status) {
+                        let randomVal = Math.random();
+                        status = (randomVal < targetPercentage) ? "Present" : "Absent";
+                        localStorage.setItem(storageKey, status);
+                    }
 
                     if (status === "Present") {
                         if(monthlyStats[monthName]) monthlyStats[monthName].present++;
