@@ -53,10 +53,10 @@
 
             <form class="login-form" id="loginForm">
                 <div class="input-group">
-                    <input type="text" id="usernameInput" class="form-control" placeholder="Username (e.g. hashir imran)" required>
+                    <input type="text" id="usernameInput" class="form-control" placeholder="Username (e.g. gohar)" required>
                 </div>
                 <div class="input-group">
-                    <input type="password" id="passwordInput" class="form-control" placeholder="Password (e.g. group2)" required>
+                    <input type="password" id="passwordInput" class="form-control" placeholder="Password (e.g. group1)" required>
                 </div>
                 <div class="form-actions">
                     <a href="#" class="recover-link">Recover Password</a>
@@ -76,7 +76,7 @@
             let fullName = "";
             let rollNo = "";
             let avatarFile = "";
-            let targetDashboard = "dashboard1.html";
+            let targetDashboard = "dashboard.html"; // Sabhi ke liye filhal single dashboard
 
             // ---------------- GROUP 1 ----------------
             if (password === 'group1' && ['gohar', 'abdulrehman', 'abdul ahad'].includes(username)) {
@@ -93,7 +93,7 @@
                     rollNo = "4237-1-25";
                     avatarFile = "ahad.png";
                 }
-                targetDashboard = 'dashboard1.html';
+                targetDashboard = 'dashboard.html';
             }
             // ---------------- GROUP 2 ----------------
             else if (password === 'group2' && ['ali rehman', 'hashir imran'].includes(username)) {
@@ -106,7 +106,7 @@
                     rollNo = "1905-1-25";
                     avatarFile = "ali.png";
                 }
-                targetDashboard = 'dashboard.html'; // Filhal main dashboard
+                targetDashboard = 'dashboard.html';
             }
             // ---------------- GROUP 3 ----------------
             else if (password === 'group3' && username === 'bahawal imran') {
