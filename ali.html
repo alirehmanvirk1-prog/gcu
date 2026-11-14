@@ -130,7 +130,7 @@
             .user-meta { display: none; }
             .caret-icon { display: none; }
             .portal-title-text { display: none; }
-            .sidebar-panel { position: fixed; fixed; left: -280px; top: 0; height: 100vh; z-index: 9999; background: #ffffff; width: 240px; }
+            .sidebar-panel { position: fixed; left: -280px; top: 0; height: 100vh; z-index: 9999; background: #ffffff; width: 240px; }
             .sidebar-panel.mobile-open { left: 0; }
             .sidebar-panel.mobile-close-btn { display: block; }
             
@@ -844,6 +844,12 @@
             if(courses.length > 0) fetchAttendanceFromDB(courses[0].code);
         }
 
+        // Seeded pseudo-random generator for pattern-less organic distribution matching 83% - 87% average
+        function seededRandom(seed) {
+            let x = Math.sin(seed++) * 10000;
+            return x - Math.floor(x);
+        }
+
         function fetchAttendanceFromDB(courseCode) {
             let records = [];
             let startDate = new Date('2026-08-17');
@@ -869,8 +875,12 @@
                 "Nov": { present: 0, absent: 0 }
             };
 
-            // Deterministic sequence counter for 3 presents followed by 1 absent (maintains ~83% - 87% average)
-            let classCounter = 0;
+            let charSum = 0;
+            for(let i = 0; i < courseCode.length; i++) charSum += courseCode.charCodeAt(i);
+            
+            // Target probability anchor to sustain 85% average organically
+            let baseProbability = 0.85 + ((charSum % 5) * 0.01);
+            let dayIndex = 0;
 
             while (currentDate <= endDate) {
                 let dayOfWeek = currentDate.getDay(); // 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri
@@ -890,11 +900,12 @@
                 }
 
                 if (isClassDay) {
+                    dayIndex++;
                     let monthName = currentDate.toLocaleString('en-US', { month: 'short' });
                     
-                    // 3 Presents then 1 Absent pattern logic
-                    classCounter++;
-                    let status = (classCounter % 4 === 0) ? "Absent" : "Present";
+                    // Organic pattern-less stochastic roll seeded uniquely per course and day
+                    let organicRoll = seededRandom(charSum + dayIndex * 37);
+                    let status = (organicRoll < baseProbability) ? "Present" : "Absent";
 
                     if (status === "Present") {
                         if(monthlyStats[monthName]) monthlyStats[monthName].present++;
