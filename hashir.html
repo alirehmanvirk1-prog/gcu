@@ -738,7 +738,6 @@
         let pieChartInst = null;
         let lineChartInst = null;
 
-        // Exact Courses extracted from TimeTable PDF
         const customCourses = [
             { code: "ENG-2001", title: "English" },
             { code: "CHEM-2001", title: "Chemistry" },
@@ -844,11 +843,28 @@
             if(courses.length > 0) fetchAttendanceFromDB(courses[0].code);
         }
 
+        function seededRandom(seed) {
+            let x = Math.sin(seed++) * 10000;
+            return x - Math.floor(x);
+        }
+
         function fetchAttendanceFromDB(courseCode) {
             let records = [];
             let startDate = new Date('2026-08-17');
-            let endDate = new Date('2026-11-05'); // Aaj ki date (5 Nov 2026)
+            
+            // Dynamic end date calculation with 6 AM late-night cutoff & max limit up to 12 Nov 2026
+            let now = new Date();
+            let endDate = new Date(now);
+            if (now.getHours() < 6) {
+                endDate.setDate(endDate.getDate() - 1);
+            }
+            let maxStaticDate = new Date('2026-11-12');
+            if (endDate > maxStaticDate) {
+                endDate = maxStaticDate;
+            }
+
             let currentDate = new Date(startDate);
+            let sr = 1;
 
             let monthlyStats = {
                 "Aug": { present: 0, absent: 0 },
@@ -857,32 +873,33 @@
                 "Nov": { present: 0, absent: 0 }
             };
 
-            // Seed based on course code to produce consistent 89% - 97% attendance range
             let charSum = 0;
-            for(let i = 0; i < courseCode.length; i++) charSum += courseCode.charCodeAt(i);
-            let targetPercentage = 0.89 + ((charSum % 9) * 0.01);
+            for(let i=0; i<courseCode.length; i++) charSum += courseCode.charCodeAt(i);
+            let baseProbability = 0.89 + ((charSum % 9) * 0.01);
+            let dayIndex = 0;
 
             while (currentDate <= endDate) {
-                let dayOfWeek = currentDate.getDay(); // 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri
+                let dayOfWeek = currentDate.getDay();
                 let isClassDay = false;
 
-                // Exact Day Wise Logic matching PDF Timetable
-                if (dayOfWeek === 1) { // Monday
+                if (dayOfWeek === 1) {
                     if (["ENG-2001", "CHEM-2001", "MATH-2001", "URDU-2001", "PHY-2001"].includes(courseCode)) isClassDay = true;
-                } else if (dayOfWeek === 2) { // Tuesday
+                } else if (dayOfWeek === 2) {
                     if (["ENG-2001", "CHEM-2010 P", "MATH-2001", "URDU-2001", "PHY-2001"].includes(courseCode)) isClassDay = true;
-                } else if (dayOfWeek === 3) { // Wednesday
+                } else if (dayOfWeek === 3) {
                     if (["ENG-2001", "CHEM-2001", "PS-2001", "URDU-2001", "PHY-2001"].includes(courseCode)) isClassDay = true;
-                } else if (dayOfWeek === 4) { // Thursday
+                } else if (dayOfWeek === 4) {
                     if (["ENG-2001", "CHEM-2001", "MATH-2001", "PS-2001", "PHY-2001"].includes(courseCode)) isClassDay = true;
-                } else if (dayOfWeek === 5) { // Friday
+                } else if (dayOfWeek === 5) {
                     if (["HQ-1004", "CHEM-2001", "MATH-2001", "PHY-2010 P", "URDU-2001"].includes(courseCode)) isClassDay = true;
                 }
 
                 if (isClassDay) {
+                    dayIndex++;
                     let monthName = currentDate.toLocaleString('en-US', { month: 'short' });
-                    let randomVal = Math.random();
-                    let status = (randomVal < targetPercentage) ? "Present" : "Absent";
+                    
+                    let organicRoll = seededRandom(charSum + dayIndex * 37);
+                    let status = (organicRoll < baseProbability) ? "Present" : "Absent";
 
                     if (status === "Present") {
                         if(monthlyStats[monthName]) monthlyStats[monthName].present++;
