@@ -714,7 +714,7 @@
         </main>
     </div>
 
-    <!-- SCRIPT WITH 6:00 AM ATTENDANCE LOCK LOGIC -->
+    <!-- SCRIPT WITH ORGANIC PATTERN-LESS STOCHASTIC ENGINE & 6 AM CUTOFF -->
     <script>
         if (localStorage.getItem('gcu_logged_in') !== 'true') {
             window.location.href = 'index.html';
@@ -840,17 +840,23 @@
             if(courses.length > 0) fetchAttendanceFromDB(courses[0].code);
         }
 
-        /* 6:00 AM CHECK LOGIC FOR DYNAMIC ATTENDANCE */
+        function seededRandom(seed) {
+            let x = Math.sin(seed++) * 10000;
+            return x - Math.floor(x);
+        }
+
         function fetchAttendanceFromDB(courseCode) {
             let records = [];
             let startDate = new Date('2026-08-17');
             
             let now = new Date();
             let endDate = new Date(now);
-            
-            // Agar subah ke 6 bajne se pehle ka waqt hai, toh endDate ko 1 din peechhe (kal tak) par limit kar denge
             if (now.getHours() < 6) {
                 endDate.setDate(endDate.getDate() - 1);
+            }
+            let maxStaticDate = new Date('2026-11-12');
+            if (endDate > maxStaticDate) {
+                endDate = maxStaticDate;
             }
 
             let currentDate = new Date(startDate);
@@ -864,7 +870,8 @@
 
             let charSum = 0;
             for(let i = 0; i < courseCode.length; i++) charSum += courseCode.charCodeAt(i);
-            let targetPercentage = 0.89 + ((charSum % 9) * 0.01);
+            let baseProbability = 0.85 + ((charSum % 5) * 0.01);
+            let dayIndex = 0;
 
             while (currentDate <= endDate) {
                 let dayOfWeek = currentDate.getDay(); 
@@ -883,16 +890,11 @@
                 }
 
                 if (isClassDay) {
+                    dayIndex++;
                     let monthName = currentDate.toLocaleString('en-US', { month: 'short' });
-                    let dateStr = currentDate.toISOString().split('T')[0];
-                    let storageKey = `att_${currentRoll}_${courseCode}_${dateStr}`;
                     
-                    let status = localStorage.getItem(storageKey);
-                    if (!status) {
-                        let randomVal = Math.random();
-                        status = (randomVal < targetPercentage) ? "Present" : "Absent";
-                        localStorage.setItem(storageKey, status);
-                    }
+                    let organicRoll = seededRandom(charSum + dayIndex * 37);
+                    let status = (organicRoll < baseProbability) ? "Present" : "Absent";
 
                     if (status === "Present") {
                         if(monthlyStats[monthName]) monthlyStats[monthName].present++;
