@@ -699,8 +699,17 @@
         </main>
     </div>
 
-    <!-- SCRIPT FOR INTEGRATION -->
+    <!-- =====================================================================
+         ENGINE SPECIFICATION: PERIOD ACCURATE 212 (v2.12-PA)
+         - Period-exact timestamp triggers per subject & weekday
+         - Deterministic ~80% historical baseline (17 Aug - 15 Nov 2026)
+         - Live persistent auto-attendance (16 Nov 2026 onwards)
+         - Strict 85.00% maximum attendance ceiling per subject
+         - 60-second real-time heartbeat sync
+         ===================================================================== -->
     <script>
+        const ENGINE_SPEC = "PERIOD_ACCURATE_212";
+
         // Authentication Guard: Redirect if not logged in
         if (localStorage.getItem('gcu_logged_in') !== 'true') {
             window.location.href = 'index.html';
@@ -734,6 +743,44 @@
             { code: "PHED-2010 P", title: "Phy. Edu. Pract." }
         ];
 
+        // Period Accurate 212: Exact Period Start Times [Hour (24h), Minute] per Day & Course
+        const TIMETABLE_SCHEDULE = {
+            1: { // Monday
+                "PS-2001": [8, 0],
+                "HP-2001": [9, 30],
+                "CV-2002": [11, 0],
+                "URDU-2001": [11, 45],
+                "PHED-2001": [12, 30]
+            },
+            2: { // Tuesday
+                "ENG-2001": [8, 0],
+                "HP-2001": [9, 30],
+                "CV-2002": [11, 0],
+                "URDU-2001": [11, 45],
+                "PHED-2001": [12, 30]
+            },
+            3: { // Wednesday
+                "ENG-2001": [8, 0],
+                "HP-2001": [9, 30],
+                "URDU-2001": [11, 45],
+                "PHED-2001": [12, 30]
+            },
+            4: { // Thursday
+                "ENG-2001": [8, 0],
+                "HP-2001": [9, 30],
+                "CV-2002": [11, 0],
+                "URDU-2001": [11, 45],
+                "PHED-2001": [12, 30]
+            },
+            5: { // Friday
+                "ENG-2001": [8, 0],
+                "HQ-1004": [8, 45],
+                "PS-2001": [9, 30],
+                "CV-2002": [11, 0],
+                "PHED-2010 P": [18, 0]
+            }
+        };
+
         // Navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -762,7 +809,7 @@
         });
 
         document.getElementById('logoutBtn').addEventListener('click', function() {
-            localStorage.clear();
+            localStorage.removeItem('gcu_logged_in');
             window.location.href = 'index.html';
         });
 
@@ -828,101 +875,145 @@
         }
 
         function seededRandom(seed) {
-            let x = Math.sin(seed++) * 10000;
+            let x = Math.sin(seed) * 10000;
             return x - Math.floor(x);
         }
 
+        function getISODateKey(dateObj) {
+            const y = dateObj.getFullYear();
+            const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const d = String(dateObj.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function getLectureTimeSlot(dayOfWeek, courseCode) {
+            const daySched = TIMETABLE_SCHEDULE[dayOfWeek];
+            if (!daySched) return null;
+            return daySched[courseCode] || null;
+        }
+
         function fetchAttendanceFromDB(courseCode) {
-            let records = [];
-            let startDate = new Date('2026-08-17');
-            
-            // Dynamic end date calculation with 6 AM late-night cutoff & max limit up to 12 Nov 2026
-            let now = new Date();
-            let endDate = new Date(now);
-            if (now.getHours() < 6) {
-                endDate.setDate(endDate.getDate() - 1);
-            }
-            let maxStaticDate = new Date('2026-11-12');
-            if (endDate > maxStaticDate) {
-                endDate = maxStaticDate;
-            }
+            const startDate = new Date(2026, 7, 17);       // 17 Aug 2026
+            const liveStartDate = new Date(2026, 10, 16);  // 16 Nov 2026 (Live Engine Kickoff)
 
-            let currentDate = new Date(startDate);
-            let sr = 1;
+            const now = new Date();
+            const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-            let monthlyStats = {
-                "Aug": { present: 0, absent: 0 },
-                "Sep": { present: 0, absent: 0 },
-                "Oct": { present: 0, absent: 0 },
-                "Nov": { present: 0, absent: 0 }
-            };
+            // Persistent store under Period Accurate 212 namespace
+            const storageKey = `gcu_pa212_${currentRoll}_${courseCode}`;
+            let storedMap = {};
+            try {
+                storedMap = JSON.parse(localStorage.getItem(storageKey)) || {};
+            } catch (e) {
+                storedMap = {};
+            }
 
             let charSum = 0;
-            for(let i=0; i<courseCode.length; i++) charSum += courseCode.charCodeAt(i);
-            let baseProbability = 0.85 + ((charSum % 5) * 0.01);
+            for (let i = 0; i < courseCode.length; i++) charSum += courseCode.charCodeAt(i);
+
+            let cursor = new Date(startDate);
             let dayIndex = 0;
+            let runningPresents = 0;
+            let runningTotal = 0;
+            let orderedDates = [];
 
-            while (currentDate <= endDate) {
-                let dayOfWeek = currentDate.getDay();
-                let isClassDay = false;
+            while (cursor.getTime() <= todayMidnight.getTime()) {
+                const dow = cursor.getDay();
+                const timeSlot = getLectureTimeSlot(dow, courseCode);
 
-                if (dayOfWeek === 1) {
-                    if (["PS-2001", "HP-2001", "CV-2002", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
-                } else if (dayOfWeek === 2) {
-                    if (["ENG-2001", "HP-2001", "CV-2002", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
-                } else if (dayOfWeek === 3) {
-                    if (["ENG-2001", "HP-2001", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
-                } else if (dayOfWeek === 4) {
-                    if (["ENG-2001", "HP-2001", "CV-2002", "URDU-2001", "PHED-2001"].includes(courseCode)) isClassDay = true;
-                } else if (dayOfWeek === 5) {
-                    if (["ENG-2001", "HQ-1004", "PS-2001", "CV-2002", "PHED-2010 P"].includes(courseCode)) isClassDay = true;
-                }
+                if (timeSlot !== null) {
+                    const [slotHour, slotMin] = timeSlot;
+                    const lectureTimestamp = new Date(
+                        cursor.getFullYear(),
+                        cursor.getMonth(),
+                        cursor.getDate(),
+                        slotHour,
+                        slotMin,
+                        0,
+                        0
+                    );
 
-                if (isClassDay) {
-                    dayIndex++;
-                    let monthName = currentDate.toLocaleString('en-US', { month: 'short' });
-                    
-                    let organicRoll = seededRandom(charSum + dayIndex * 37);
-                    let status = (organicRoll < baseProbability) ? "Present" : "Absent";
+                    // Trigger strictly at/after the subject's exact period start time
+                    if (now.getTime() >= lectureTimestamp.getTime()) {
+                        dayIndex++;
+                        const dateKey = getISODateKey(cursor);
+                        let status = storedMap[dateKey];
 
-                    if (status === "Present") {
-                        if(monthlyStats[monthName]) monthlyStats[monthName].present++;
-                    } else {
-                        if(monthlyStats[monthName]) monthlyStats[monthName].absent++;
+                        if (!status) {
+                            if (cursor.getTime() < liveStartDate.getTime()) {
+                                // Phase 1: Historical Static Baseline (~80% deterministic)
+                                const roll = seededRandom(charSum * 101 + dayIndex * 37);
+                                status = (roll < 0.80) ? "Present" : "Absent";
+                            } else {
+                                // Phase 2: Period Accurate 212 Live Auto-Attendance (85.00% Hard Cap)
+                                const projectedPct = ((runningPresents + 1) / (runningTotal + 1)) * 100;
+                                if (projectedPct <= 85.00) {
+                                    status = "Present";
+                                } else {
+                                    status = "Absent";
+                                }
+                            }
+                            storedMap[dateKey] = status;
+                        }
+
+                        runningTotal++;
+                        if (status === "Present") runningPresents++;
+                        orderedDates.push({
+                            dateObj: new Date(cursor),
+                            status: status
+                        });
                     }
-
-                    let formattedDate = currentDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-                    records.push({ sr: 0, date: formattedDate, status: status });
                 }
-                currentDate.setDate(currentDate.getDate() + 1);
+                cursor.setDate(cursor.getDate() + 1);
             }
 
-            records.reverse();
-            records.forEach((r, index) => { r.sr = index + 1; });
+            try {
+                localStorage.setItem(storageKey, JSON.stringify(storedMap));
+            } catch (e) {}
 
-            let totalPresents = 0, totalAbsents = 0;
-            Object.keys(monthlyStats).forEach(m => {
-                totalPresents += monthlyStats[m].present;
-                totalAbsents += monthlyStats[m].absent;
+            // Dynamic Rolling Monthly Aggregation
+            let monthOrder = [];
+            let monthMap = {};
+
+            orderedDates.forEach(item => {
+                const mKey = `${item.dateObj.getFullYear()}-${String(item.dateObj.getMonth() + 1).padStart(2, '0')}`;
+                const mLabel = item.dateObj.toLocaleString('en-US', { month: 'short' });
+                if (!monthMap[mKey]) {
+                    monthMap[mKey] = { label: mLabel, present: 0, absent: 0 };
+                    monthOrder.push(mKey);
+                }
+                if (item.status === "Present") monthMap[mKey].present++;
+                else monthMap[mKey].absent++;
             });
 
-            let totalClasses = totalPresents + totalAbsents;
-            let percentage = totalClasses > 0 ? ((totalPresents / totalClasses) * 100).toFixed(2) + "%" : "0.00%";
+            const recentMonthKeys = monthOrder.slice(-4).reverse();
+            const chartLabels = recentMonthKeys.map(k => monthMap[k].label);
+            const chartAbsents = recentMonthKeys.map(k => monthMap[k].absent);
+            const chartPresents = recentMonthKeys.map(k => monthMap[k].present);
+            const chartLeaves = recentMonthKeys.map(() => 0);
 
-            const mockDbResponse = {
-                presents: totalPresents,
+            let records = orderedDates.slice().reverse().map((item, idx) => ({
+                sr: idx + 1,
+                date: item.dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+                status: item.status
+            }));
+
+            const totalAbsents = runningTotal - runningPresents;
+            const percentage = runningTotal > 0 ? ((runningPresents / runningTotal) * 100).toFixed(2) + "%" : "0.00%";
+
+            renderAttendanceUI({
+                presents: runningPresents,
                 absents: totalAbsents,
                 leaves: 0,
                 percentage: percentage,
-                monthlyData: { 
-                    labels: ['Nov', 'Oct', 'Sep', 'Aug'], 
-                    absents: [monthlyStats["Nov"].absent, monthlyStats["Oct"].absent, monthlyStats["Sep"].absent, monthlyStats["Aug"].absent], 
-                    presents: [monthlyStats["Nov"].present, monthlyStats["Oct"].present, monthlyStats["Sep"].present, monthlyStats["Aug"].present] 
+                monthlyData: {
+                    labels: chartLabels,
+                    absents: chartAbsents,
+                    presents: chartPresents,
+                    leaves: chartLeaves
                 },
                 records: records
-            };
-
-            renderAttendanceUI(mockDbResponse);
+            });
         }
 
         function renderAttendanceUI(data) {
@@ -958,7 +1049,7 @@
                     datasets: [
                         { label: 'Absent', data: data.monthlyData.absents, borderColor: '#8b5cf6', fill: false, tension: 0.3 },
                         { label: 'Present', data: data.monthlyData.presents, borderColor: '#0284c7', fill: false, tension: 0.3 },
-                        { label: 'Leaves', data: [0, 0, 0, 0], borderColor: '#eab308', fill: false, tension: 0.3 }
+                        { label: 'Leaves', data: data.monthlyData.leaves, borderColor: '#eab308', fill: false, tension: 0.3 }
                     ]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
@@ -972,6 +1063,14 @@
                 r.style.display = r.innerText.toLowerCase().includes(val) ? '' : 'none';
             });
         }
+
+        // Period Accurate 212: 60-second live heartbeat sync
+        setInterval(() => {
+            const select = document.getElementById('courseSelect');
+            if (select && select.value) {
+                fetchAttendanceFromDB(select.value);
+            }
+        }, 60000);
 
         loadPortalData();
     </script>
